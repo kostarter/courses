@@ -1,11 +1,13 @@
-# Elasticsearch 6 and Elastic Stack - In Depth and Hands On!
+# Elasticsearch 7 and Elastic Stack - In Depth and Hands On!
+
+![alt text](https://i.ibb.co/XXJ2Y4p/c652d73656375726974792d322e6a7066.png)
 
 Elasticsearch
 ==
 
 ##### Présentation
 
-Elasticsearch est juste une partie de la stack Elastic. Il est basé sur Apache Lucene qui est un framework de recherche de texte basé sur les index inversés.
+Elasticsearch fait partie de la stack Elastic. Il est basé sur Apache Lucene qui est un framework de recherche de texte basé sur les index inversés.
 Il est parfaitement scalable de manière horizontale, il décompose les données en shards et les réplique ce qui le rend fault tolerant. 
 Chaque shard est en soi un index Lucene inversé, ce qui rend d'autant plus rapide les recherches sur du texte.
 Mais Elasticsearch n'est pas juste un outil de recherche sur du contenu textuel, il peut aussi gérer d'autres types de données telles que les dates, les données numériques et permet donc de faire des aggregations et des calculs.
@@ -29,7 +31,7 @@ $ sudo yum install java-1.8.0-openjdk-devel
 
 #### Installation Elasticsearch 7
 
-Import the public key of elasticsearch :
+Importer la clé publique pour elasticsearch :
 ```sbtshell
 $ rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
 
@@ -39,7 +41,7 @@ $ nano elasticsearch.repo
 $ sudo yum install elasticsearch
 ```
 
-Configuration files and default logs path :
+Les fichiers de configuration et le dossier par défaut pour les fichiers de logs :
 ```sbtshell
 /etc/elasticsearch/elasticsearch.yml
 /etc/elasticsearch/jvm.options
@@ -47,7 +49,7 @@ Configuration files and default logs path :
 /var/log/elasticsearch
 ```
 
-Pour lancer elastic-search en tant que service :
+Pour lancer elasticsearch en tant que service :
 ```sbtshell
 sudo service elasticsearch start
 ```
@@ -55,8 +57,22 @@ sudo service elasticsearch start
 
 Dire à elasticsearch comment stocker le jeu de données Shakespeare :
 ```sbtshell
-$ wget http://media.sundog-soft.com/es6/shakes-mapping.json
+$ wget http://media.sundog-soft.com/es7/shakes-mapping.json
 $ curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/shakespeare --data-binary @shakes-mapping.json
+```
+TODO : Est-ce-que cela crée l'index ?
+
+```json
+{
+	"mappings" : {
+		"properties" : {
+			"speaker" : {"type": "keyword" },
+			"play_name" : {"type": "keyword" },
+			"line_id" : { "type" : "integer" },
+			"speech_number" : { "type" : "integer" }
+		}
+	}
+}
 ```
 
 Rajouter  à l'index :
@@ -81,39 +97,35 @@ $ curl -XDELETE localhost:9200/shop
 
 ### Les concepts logiques d'Elasticsearch
 
-- **Documents :** 
-
-    Ce sont les entités que l'on cherche. Peuvent être plus que du texte et chaque document possède un identifiant unique et un type (équivaut à un tuple en BDD).
-    On peut les considérer comme les lignes dans une base de données relationnels.<br/>
-    Quand on envoie des requêtes à Elasticsearch c'est un peu ce qu'on recherche. Ces documents ne contiennent pas uniquement du texte, toute donnée structurée JSON peut être prise en compte.
-    Chaque document posséde un identifiant unique (que l'on spécifie lorsqu'on index le document, sinon elasticsearch se charge de lui en générer un).<br/>
-    Il possède également un type, qui décrit ce que contient le document, les champs, les types... Un document ça peut être par exemple un article Wikipédia ou une ligne de logs crachée par un serveur Apache.
-
-
-- **Types :** 
-
-    Un schéma ou un mapping commun à plusieurs documents. Il décrit la représentation de ces documents (équivaut à une table en BDD).
-    Le concept Type est devenu obsolète depuis la version 6.<br/>
-    Ca correspond au schéma ou mapping commun à plusieurs documents. C'est ce qui définit la structure du document.
-    Ici comme nous sommes dans du semi structuré, ce schéma n'est pas gravé dans le marbre, il est souple. C'est pas parce qu'on définit un type film sans rating que l'on ne pourra pas indéxer des films avec une note.
-    
-    Mais voila à partir de la version 7 d'Elasticsearch c'est un concept qui a changé puisqu'il n'est plus possible de stocker des documents de types différents dans le même index.
-    Donc ce n'est plus le type qui est porteur du mapping mais l'index.
-        
 - **Index :** 
 
     Entité haut niveau sur laquelle il est possible de faire des requêtes dans Elasticsearch. Peuvent contenir des collections de documents ou de types (équivaut à une BDD).<br/>
-    C'est la structure dans laquelle sont référencés des documents. Du même type donc, depuis la version 7.
-    Chaque index est géré par un index inversé qui nous permet de chercher très rapidement à travers les documents qui y sont indexés.
-    => Index inversé c'est un peu ce qui se trouve à la fin de chaque bouquin, ou on a les termes et pour chaque terme les pages ou il se trouve.
+    C'est la structure dans laquelle sont référencés des documents. Du même type donc, depuis la version 7.<br/>
+    Chaque index est géré par un index inversé qui nous permet de chercher très rapidement à travers les documents qui y sont indexés.<br/>
+    => Index inversé c'est ce qui se trouve à la fin de chaque bouquin, où on a les termes et pour chaque terme les pages où il se trouve.
+
+- **Documents :** 
+
+    On peut les considérer comme les lignes dans une base de données relationnels.<br/>
+    Quand on envoie des requêtes des recherches dans elasticsearch c'est ce qu'on recherche. Ces documents ne contiennent pas uniquement du texte, toute donnée structurée JSON peut être prise en compte. 
+    Chaque document posséde un identifiant unique, que l'on spécifie lorsqu'on indexe le document, sinon elasticsearch se charge de lui en générer un.<br/>
+    Il possède également un type, qui décrit ce que contient le document, les champs, les types... Un document ça peut être par exemple un article Wikipédia ou une ligne de logs crachée par un serveur Apache.
+
+- **Types :** 
+
+    Un schéma ou un mapping commun à plusieurs documents. Il décrit la représentation de ces documents (équivaut à une table en BDD).<br/>
+    Le concept Type est devenu obsolète depuis la version 6.<br/>
+    C'est ce qui définit la structure du document.
+    Comme c'est du semi structuré, ce schéma n'est pas gravé dans le marbre, il est souple. C'est pas parce qu'on définit un type film sans rating que l'on ne pourra pas indéxer des films avec un rating.
+    
+    Mais voila à partir de la version 7 d'Elasticsearch c'est un concept qui a changé puisqu'il n'est plus possible de stocker des documents de types différents dans le même index.
+    Donc ce n'est plus le type qui est porteur du mapping mais l'index.
 
     **Pour schématiser : On peut parler de base de données en ce qui concerne l'index, de table pour ce qui est des types et de lignes pour les documents.**
 
 - **Shards :**
 
-    Les documents sont dans des shards.
-    Les shards sont répartis sur les noeuds du cluster.
-    
+    Les documents sont dans des shards. Les shards sont répartis sur les noeuds du cluster.<br/>
     Chaque shard contient un index Lucene de lui-même.
     
     Comment fonctionne la réplication des shards en primaires et replicats ?
@@ -125,15 +137,15 @@ $ curl -XDELETE localhost:9200/shop
     Le nombre de shards primaires ne peux pas être modifiés après création de l'index.
     Multiplier le nombre de réplicats améliore les performances de lecture mais ralentit l'écriture.
     
-    Donc pour choisir le nombre de shards primaires il faut prendre en compte la nature du cluster : est ce qu'il sera sujet à beaucoup d'ecritures ou de lectures ?
+    **Donc pour choisir le nombre de shards primaires il faut prendre en compte la nature du cluster : est ce qu'il sera sujet à beaucoup d'ecritures ou de lectures ?
     Par exemple pour Wikipedia ou ce sera principalement de la lecture avec beaucoup de recherche avoir peu de shards principaux n'est pas un problème parce que la charge sera absorbée par les replicats.
-    Par contre si on a de l'ingestion de logs en continue il vaut mieux multiplier les shards principaux pour répartir la charges d'ectiture qui elle dans un premier temps ne concerne pas les replicats.
+    Par contre si on a de l'ingestion de logs en continue il vaut mieux multiplier les shards principaux pour répartir la charges d'ectiture qui elle dans un premier temps ne concerne pas les replicats.**
     
     La décision doit se faire avant la création de l'index !!
     Ceci dit ré-indexer un index n'est pas un drame. Cela se fait assez rapidement et peut se faire sans toucher l'autre index.
     
     Donc prévoir large mais pas trop ! On peut anticiper sur l'augmentation des besoins sur une année. Et puis au besoin, ré indexer en ajustant le numéro de shards.
-    Il n'y a pas de best practice universelle. Chaque contexte a une configuration qui le fera fonctionner de manière optimale. C'est du fine tuning.
+    Il n'y a pas de *best practice* universelle. Chaque contexte a une configuration qui le fera fonctionner de manière optimale. C'est du fine tuning.
     
     Une autre stréatégie est de partir sur une configuration minimale et de stresser l'index créé jusqu'à ce qu'il étouffe et ensuite rajouter de manière incrémentale des shards jusqu'à trouver la configuration optimale.
     Utiliser des alias pour regrouper des index.
@@ -198,7 +210,14 @@ PUT /testindex
 GET testindex/_settings
 ```
 
-- **Lire le contenu d'un index :** 
+La liste des index :
+```sbtshell
+$ curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/_cat/indices?v'
+```
+
+- **Lire le mapping d'un index :**
+
+TODO : A verifier.
 ```sbtshell
 $ curl -H "Content-Type: application/json" -XGET 127.0.0.1:9200/movies/_mappings/movie?pretty
 ```
@@ -216,6 +235,8 @@ $ curl -H "Content-Type: application/json" -XGET 127.0.0.1:9200/movies/movie/_se
 ```
 
 - **Import :**
+
+TODO : Dans quel index ?
 ```sbtshell
 $ curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/_bulk?pretty --data-binary @movies.json
 ```
@@ -242,7 +263,7 @@ $ curl -H "Content-Type: application/json" -XDELETE 127.0.0.1:9200/movies/movie/
 
 - **Accés concurrents :**
 
-Utiliser les numéros de version pour mettre à jour. Plus simple : utiliser le paramètre retry_on_conflict=5.
+Utiliser les numéros de version pour mettre à jour.
 ```sbtshell
 $ curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/movies/movie/109487?version=4 -d '
 {
@@ -253,7 +274,7 @@ $ curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/movies/movie/109
 '
 ```
 
-WARN : Mais avec la V7 on n'utilise plus la version mais "_seq_no" et "_primary_term" !!!
+WARN : Mais avec la version 7 on n'utilise plus la version mais "_seq_no" et "_primary_term" !!!
 ```sbtshell
 $ curl -H "Content-Type: application/json" -XPUT "127.0.0.1:9200/movies/_doc/109487?if_seq_no=6&if_primary_term=1" -d '
 {
@@ -266,7 +287,7 @@ $ curl -H "Content-Type: application/json" -XPUT "127.0.0.1:9200/movies/_doc/109
 
 TODO : Comment gére-t-il les numéros de séquences ??!!!
 
-Pour nous faciliter la vie utiliser le retry_on_conflict !
+Pour se faciliter la vie utiliser le retry_on_conflict !
 
 ```sbtshell
 $ curl -H "Content-Type: application/json" -XPOST 127.0.0.1:9200/movies/movie/109487/_update?retry_on_conflict=5 -d '
@@ -279,11 +300,11 @@ $ curl -H "Content-Type: application/json" -XPOST 127.0.0.1:9200/movies/movie/10
 
 ### Les analyseurs
 
-**Character filters => Tokenizer => Token Filter**
+![alt text](https://i.ibb.co/k0vtf75/analysis-chain.png)
 
-Keyword mapping pour supprimer l'analyseur sur le champ : seul une correspondance exacte est admise.<br/>
+Le type keyword mapping pour supprimer l'analyseur sur le champ : seul une correspondance exacte est admise.<br/>
 Le type text pour permettre l'analyse.<br/>
-En fonction d'analyseur les résultats seront sensibles à la casse ou pas, filtrés, associés à des synonymes...
+En fonction de l'analyseur les résultats seront sensibles à la casse ou pas, filtrés, associés à des synonymes...
 
 ```sbtshell
 $ curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/movie/_search?pretty' -d '
@@ -311,7 +332,7 @@ $ curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/movie/_s
 
 - Normaliser ou dénormaliser ? That is the question !!!!
 
-La normalisation optimise l'espace en évitant la redondance de données mais implique de multiplier les appels aggreger les données.<br/>
+La normalisation optimise l'espace en évitant la redondance de données mais implique de multiplier les appels pour aggreger les données.<br/>
 Actuelement l'espace de stockage ne coute pas très cher, donc peut être vaut-il mieux dénormaliser pour améliorer les perfs.<br/>
 Reflechir aussi à la fréquence à laquelle les données peuvent être modifiées. Avoir à propager les modifications sur les données dénormalisées est douloureux aussi !
 
@@ -331,7 +352,47 @@ $ curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/series -d '
 
 Parent et enfant doivent être rajouté dans le même shard.
 ```sbtshell
-> curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/_bulk?pretty --data-binary @series.json
+$ curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/_bulk?pretty --data-binary @series.json
+```
+
+```json
+    {
+       "create":{
+          "_index":"series",
+          "_type":"movie",
+          "_id":"1",
+          "routing":1
+       }
+    }
+    {
+       "id":"1",
+       "film_to_franchise":{
+          "name":"franchise"
+       },
+       "title":"Star Wars"
+    }
+    {
+       "create":{
+          "_index":"series",
+          "_type":"movie",
+          "_id":"260",
+          "routing":1
+       }
+    }
+    {
+       "id":"260",
+       "film_to_franchise":{
+          "name":"film",
+          "parent":"1"
+       },
+       "title":"Star Wars: Episode IV - A New Hope",
+       "year":"1977",
+       "genre":[
+          "Action",
+          "Adventure",
+          "Sci-Fi"
+       ]
+    }
 ```
 
 Récupérer tous les enfants de la franchise "Star Wars" :
@@ -371,14 +432,25 @@ $ curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/movie/_s
 $ curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/movie/_search?q=+year:>2010+title:trek&pretty'
 ```
   
-Attention : Les caractères spéciaux doivent être encodés !!!!!!!!!!
+Attention : Les caractères spéciaux doivent être encodés !<br/>
 https://www.elastic.co/guide/en/elasticsearch/reference/6.2/search-uri-request.html
 
 #### Json :
 
 ##### Filtres
 Demande une réponse oui/non aux données.
-
+```console
+GET /_search
+{
+    "query": {
+        "constant_score" : {
+            "filter" : {
+                "term" : {"<field_name>" : "<your_value>"}
+            }
+        }
+    }
+}
+```
 ##### Requêtes
 Retourne les données en se basant sur la pertinence.
 
@@ -387,11 +459,11 @@ Utiliser les filtres autant que possible car : plus rapides et gérés par le ca
 ```sbtshell
 $ curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/movie/_search?pretty' -d '
 {
-"query" : {
- "match" : {
-  "title" : "star"
- }
-}
+    "query" : {
+         "match" : {
+          "title" : "star"
+         }
+    }
 }'
 ```
 
@@ -401,20 +473,20 @@ Pour combiner des critéres et pour faire un AND elle doit être de type "must" 
 ```sbtshell
 $ curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/movie/_search?pretty' -d '
 {
-"query" : {
- "bool" : {
-  "must" : { "term" : { "title" : "trek" }},
-  "filter" : { "range" : { "year" : { "gte" : 2020 }}}
- }
-}
+    "query" : {
+         "bool" : {
+              "must" : { "term" : { "title" : "trek" }},
+              "filter" : { "range" : { "year" : { "gte" : 2020 }}}
+         }
+    }
 }'
 ```
 
 **Autre filtres :** term, terms, range, exists, missing, bool ...<br/>
-**Types de requêtes :** match, match_all (par défaut), multi_match, bool, prefix, wildcardv ...
+**Types de requêtes :** match, match_all (par défaut), multi_match, bool, prefix, wildcard...
 
 ##### Recherche de phrase
-Dans les index inverser l'ordre des mots est également stocké.
+Dans les index inversés l'ordre des mots est également stocké.
 
 ```sbtshell
 $ curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/movie/_search?pretty' -d '
@@ -441,18 +513,18 @@ $ curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/movie/_s
 ```
 
 ##### Pagination
-From + size. Penser à mettre des limites max pour ne pas ruiner les performances.
+Définir un interval avec les paramètres *from* et *size*. Penser à mettre des limites max pour ne pas ruiner les performances.
 
 ```sbtshell
 $ curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/movies/movie/_search?pretty' -d '
 {
-"from" : 2,
-"size" : 2,
-"query" : {
- "match_phrase" : {
-  "genre" : "Sci-Fi"
- }
-}
+    "from" : 2,
+    "size" : 2,
+    "query" : {
+        "match_phrase" : {
+            "genre" : "Sci-Fi"
+        }
+    }
 }'
 ```
 
@@ -461,7 +533,7 @@ Utiliser le paramètre sort. Exemple : sort=year
 
 Un champs text analysé en mode full-text ne peut être utilisé pour trier des documents.<br/>
 Ceci parce qu'il existe dans l'index inversé sous forme de mots individuels et non plus comme une phrase complète.<br/>
-Pour contourner cela on peut dupliquer le champs sous forme keyword, qui ne sera pas analysé et sera stocker en tant que phrase,  pouvant ainsi être utilisé pour le tri.
+Pour contourner cela on peut dupliquer le champs sous forme de keyword, qui ne sera pas analysé et sera stocké en tant que phrase, pouvant ainsi être utilisé pour le tri.
 
 ```sbtshell
 $ curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/movies -d '
@@ -531,17 +603,9 @@ On peut aussi utiliser les edge n-grams pour ne calculer les n-grams que pour le
 1. Il faut créer un analyseur de type "autocomplete" avec un filtre "edge_ngram".
 2. L'utiliser comme analyseur sur le champs.
 
-### Import
-
-Peut se faire via les API Java, Python, Ruby, Scala...<br/>
-Pour Python : 
-```sbtshell
-$ sudo pip3 install elasticsearch
-```
-
 ### Aggregations
    
-Créer une aggrégation par rating donne le nombre de document pour chaque valeur de rating :
+Créer une aggrégation par rating donne le nombre de documents pour chaque valeur de rating :
 
 ```sbtshell
 $ curl -XGET '127.0.0.1:9200/ratings/rating/_search?size=0&pretty' -d ‘
@@ -625,7 +689,7 @@ $ curl -XGET '127.0.0.1:9200/ratings/rating/_search?size=0&pretty' -d ‘
 ```
 
 **Important :**<br/>
-Sans title.rw ça ne marche pas parce que dans l'index le champs title n'existe pas en soit, car non déclaré en tant que field data.<br/>
+Sans title.raw ça ne marcherait pas parce que dans l'index le champs title n'existe pas en soit, car non déclaré en tant que field data.<br/>
 Mais même en le déclarant en tant que field data l'aggrégation ne se fera pas sur le titre en entier mais mot à mot.
 
 Il faut recréer l'index !
@@ -745,6 +809,59 @@ POST /_all/_close
 POST _snapshot/backup-repo/snapshot-1/_restore
 ```
 
+##### Réinitialiser les settings de création d'index
+
+```sbtshell
+$ curl -H "Content-Type: application/json" -XPUT 172.21.173.199:9200/_cluster/settings -d '
+{
+	"transient" : {
+		"indices.recovery.*" : null
+	}
+}'
+
+$ curl -H "Content-Type: application/json" -XPUT 172.21.173.199:9200/_cluster/settings -d '
+{
+	"persistent" : {
+		"indices.recovery.*" : null
+	}
+}'
+```
+
+##### Activer le monitoring
+```sbtshell
+$ curl -k -u elastic:orange -H "Content-Type: application/json" -XPUT https://172.21.173.199:9200/_cluster/settings -d '
+    {
+    "persistent" : {
+        "xpack" : {
+            "monitoring" : {
+                "collection" : {
+                    "enabled" : "true"
+                }
+            }
+        }
+    }
+}'
+```
+
+##### La santé du cluster
+```sbtshell
+$ curl -k -u elastic:orange -XGET https://172.21.173.198:9200/_cluster/health?pretty
+
+$ curl -k -u elastic:orange -XGET https://172.21.173.198:9200/_cluster/settings?pretty
+
+$ curl -k -u elastic:orange -XGET https://172.21.173.198:9200/_nodes?pretty | grep quicksearch-
+```
+
+##### Activer le mode maintenance
+```sbtshell
+$ curl -H "Content-Type: application/json" -XPUT https://172.21.173.198:9200/_cluster/settings -d '
+{
+    "persistent": {
+        "cluster.routing.allocation.enable": "none"
+    }
+}'
+```
+
 ##### Alias d'index
 
 Une autre stratégie est, au lieu de ré indexer, de garder les anciens indexs et de créer de nouveau avec de nouveaux settings et d'utiliser ce qu'on appelle des alias pour pointer sur tous ces indexs.<br/>
@@ -771,8 +888,53 @@ POST /_aliases
 * Cold : Pas de mise à jour et quelques lectures.
 * Delete : Cet index peut être supprimé.
 
-Exemple de gestion de cycle de vie d'un index > Qu'on peut associer à un index via le template index.
+Exemple de gestion de cycle de vie qu'on peut associer à un index via le template index.
 Quand un index atteint 50Gb et date d'un mois il passe à l'état delete ou il sera supprimé quand il aura 3 mois. 
+
+Un autre exemple :
+```sbtshell
+$ curl -k -u elastic:orange -H "Content-Type: application/json" -XPUT "https://172.21.173.198:9200/_ilm/policy/ocm-transaction-ilm" -d '
+{
+"policy": {
+  "phases": {
+    "hot": {
+      "actions": {
+        "set_priority": {
+          "priority": 50
+        }
+      }
+    },
+    "warm": {
+      "min_age": "7d",
+      "actions": {
+        "allocate": {
+          "require": {
+            "data": "warm"
+          }
+        },
+        "set_priority": {
+          "priority": 25
+        }
+      }
+    },
+    "cold": {
+      "min_age": "30d",
+      "actions": {
+        "set_priority": {
+          "priority": 0
+        },
+        "freeze": {},
+        "allocate": {
+          "require": {
+            "data": "cold"
+          }
+        }
+      }
+    }
+  }
+}
+
+```
 
 ##### Mémoire
 
@@ -784,7 +946,7 @@ Donc plus on met de la RAM plus elasticsearch pourra cacher des objets en mémoi
 
 ### Sécurité
 
-"Cela signifie que les utilisateurs peuvent désormais chiffrer le trafic réseau, créer et gérer des utilisateurs, définir des rôles qui protègent les accès au niveau des index et des clusters et sécuriser totalement les espaces Kibana".
+"Cela signifie que les adminstrateurs peuvent désormais chiffrer le trafic réseau, créer et gérer des utilisateurs, définir des rôles qui protègent les accès au niveau des index et des clusters et sécuriser totalement les espaces Kibana".
 
 - SSL/TLS pour les communications chiffrées : Protégez vos données lorsqu'elles transitent dans le cluster et vers les clients.
 - Fichier et domaine natif pour la création et la gestion des utilisateurs.
@@ -796,8 +958,6 @@ L'accès à d'autres fonctionnalités de sécurité, telles que l'authentificati
 
 ##### X-pack
 
-Voir la documentation Elasticsearch.
-
 La sécurité dans Elasticsearch est gérée par X-Pack pour garantir l'authentification des différents serveurs ainsi que la confidentialité et l'integrité des données.
 Il permet de crypter les données qui circulent entre les noeuds et vers les clients grâce au protocole TLS, de gérer les credentials des utilisateurs, de filtrer les IPs etc ...
 
@@ -808,6 +968,8 @@ Des users peuvent être assignés à des groupes et chaque groupe posséde des p
 On peut affiner l'accés aux index, aux documents ou aux champs en fonction des utilisateurs.
 
 X-Pack peut aussi s'adosser à des annuaires tels que LDAP ou Active Directory, ce que nous allons faire ici chez vous.
+
+Voir la documentation Elasticsearch.
 
 ---
 
@@ -881,7 +1043,7 @@ xpack.security.http.ssl.keystore.path: /etc/elasticsearch/certs/ocm-master.p12
 xpack.security.http.ssl.truststore.path: /etc/elasticsearch/certs/ocm-master.p12
 ```
 
-If you secured the node’s certificate with a password, add the password to your Elasticsearch keystore:
+Si le certificat du noeud est sécurisé avec un mot de passe, ajouter le mot de passe dans le keystore elasticsearch:
 ```sbtshell
 $ sudo bin/elasticsearch-keystore add xpack.security.http.ssl.keystore.secure_password
 $ sudo bin/elasticsearch-keystore add xpack.security.http.ssl.truststore.secure_password
@@ -890,16 +1052,19 @@ $ sudo bin/elasticsearch-keystore add xpack.security.http.ssl.truststore.secure_
 Logstash
 ==
 
+![alt text](https://i.ibb.co/B3JK2tJ/logstash-pipeline.png)
+
 ##### Présentation
 
-Qui sert à nourrir Elasticsearch de données. S'interface entre les données et où l'on veut les stocker.<br/>
-Pour cela il peut s'appuyer sur FileBeat qui est un framework que l'on installe en bout de chaines là ou la donnée doit être collectée. Il est très léger et peut donc cohabiter avec les serveurs opérationnels et monitorer les fichiers de logs par exemple ou sur de l'iot pour envoyer des mesures à Logstash qui lui va peut être les transformer, et les transmettre à Elasticsearch afin qu'ils soient indexées.
-Contrairement à ce que beaucoup pensent, Logstash n'est pas dédié à Elasticsearch, il peut être utilisé indépendamment de la stack Elastic et se plugger à énormément d'autres types sources en sortie et en entrée, allant de systèmes de fichiers aux bases de données comme mySql en passant pas des messages broker tels que Kafka, les serveurs de mails, etc...
+Logstash sert à nourrir Elasticsearch de données. S'interface entre les données et où l'on veut les stocker.<br/>
+Pour cela il peut s'appuyer sur FileBeat qui est un framework que l'on installe en bout de chaines là ou la donnée doit être collectée. FileBeat est très léger et peut donc cohabiter avec les serveurs opérationnels et monitorer les fichiers de logs par exemple ou sur de l'iot pour envoyer des mesures à Logstash qui lui va peut être les transformer, et les transmettre à Elasticsearch afin qu'ils soient indexées.<br/>
+Contrairement à ce que beaucoup pensent, Logstash n'est pas dédié à Elasticsearch, il peut être utilisé indépendamment de la stack Elastic et se plugger à énormément d'autres types de sources en sortie et en entrée, allant de systèmes de fichiers aux bases de données comme mySql en passant pas des messages broker tels que Kafka, les serveurs de mails, etc...
 
-Logstash parse, transforme et filtre les données. Il peut changer les structures. Enrichir les données par les infos de géolocalisation. Peut être scalable sur plusieurs noeuds.
+Logstash parse, transforme et filtre les données. Il peut changer les structures. Enrichir les données par des infos de géolocalisation. Logstash peut être scalable sur plusieurs noeuds.
 
-=> Scalable + Fault tolerance.
-=> Gére les montées de flux. Il fait le policier de circulation.
+
+> => Scalable + Fault tolerance.<br/>
+> => Gére les montées de flux. Il fait le policier de circulation.
 
 #### Installation Logstash
 
@@ -908,10 +1073,6 @@ $ sudo yum install logstash
 ```
 
 ##### Parser et transférer les lignes d'un fichier de logs
-```sbtshell
-$ curl -H "Content-Type: application/json" -XGET '127.0.0.1:9200/_cat/indices?v'
-```
-
 ```sbtshell
 $ /usr/share/logstash
 
@@ -946,16 +1107,14 @@ $ sudo ./bin/logstash -f /etc/logstash/conf.d/logstash.conf --path.settings /etc
     }
 ```
 
+Télécharger un exemple de fichier de logs :
 ```sbtshell
 $ wget media.sundog-soft.com/es/access_log
-
-$ sudo nano /etc/logstash/log4j2.properties
 ```
 
 **IMPORTANT :** Il a fallu modifier le fichier pour qu'il soit traité ! Même touch n'a pas suffi.
 
-
-+ Lire et transférer d'une BDD mySql :
+##### Lire et transférer d'une BDD mySql :
 
 ```sbtshell
 $ sudo yum install mysql-server
@@ -991,8 +1150,8 @@ Kibana
 ##### Présentation
 Une application Web qui se branche sur un custer elasticsearch.
 Elle permet de faire tout ce qui est possible de faire via l'API REST c'est à dire des recherches, des aggrégations mais aussi de créer des diagrammes de visualisation et des dashboards. Elle permet aussi de monitorer le cluster.
-Chez nos clients on l'uitilse souvent pour de l'analyse de logs.
-On peut également l'utiliser pour l'analyse de click stream, d'ou vient le traffic sur mon site web, qui génére tel type d'erreurs, etc...
+On l'uitilse souvent pour de l'analyse de logs.
+On peut également l'utiliser pour l'analyse de click stream, d'ou vient le traffic sur un site web, qui génére tel type d'erreurs, etc...
 
 Ce qui fait que Elasticsearch n'est plus juste un outil de recherche, il est aussi un puissant couteau suisse pour faire de l'analytique.
 
@@ -1012,6 +1171,8 @@ $ sudo /bin/systemctl start kibana.service
 
 Kibana est accessible sur le port 5601.
 
+![alt text](https://i.ibb.co/bQX7j0Q/c652d73656375726974792d322e6a7067.jpg "Page d'accueil de Kibana")
+
 La console :
 
 ```sbtshell
@@ -1030,21 +1191,21 @@ GET _search?pretty
 Beats
 ==
 
-Filebeat peut servir d'interface entre les fichiers en entrée et Logstash.
+FileBeat peut servir d'interface entre les données à récupérer et Logstash.
 Plus léger que Logstash. Il peut communiquer directement avec Elasticsearch mais en passant par Logstash il peut parler à d'autres systèmes.
 
 Un système très résilient car permet de gérer la charge du flux dans le pipeline en direction de Logstash.
-Offre la possibilité de scaler le cluster horizontalement.
+Il offre la possibilité de scaler le cluster horizontalement.
 
 Gestion du flux :<br/>
 Filebeat est en bout de chaine et tourne la ou sont générés les fichiers de logs.
 Il peut arriver que Logstash n'arrive pas à ingérer la quantité de données qu'il reçoit en entrée.
-Au cas ou filebeat lit les fichiers de logs plus vite que Logstash ne peut gérer en entrée, ils s'autorégulent entre eux pour adapter le rythme d'envoi des données vers Logstash.
+Au cas où FileBeat lit les fichiers de logs plus vite que Logstash ne peut en ingérer, ils s'autorégulent entre eux pour adapter le rythme d'envoi des données vers Logstash.
 
-Quand c'est un cluster logstash, Beats fait du load balancing entre les différents noeuds pour répartir la charge d'ingestion.
-Pour une meilleure disponibilité il est conseillé d'avoir au minimum deux noeuds logstash.
+Quand c'est un cluster Logstash, Beats fait du load balancing entre les différents noeuds pour répartir la charge d'ingestion.
+Pour une meilleure disponibilité il est conseillé d'avoir au minimum deux noeuds Logstash.
 
-L'utilisation des persistent queues est plus que recommandée pour la fault tolerance. En cas d'arrêt de logstash pour qu'il puisse retrouver les données.
+L'utilisation des *persistent queues* est plus que recommandée pour la fault tolerance. En cas d'arrêt de logstash pour qu'il puisse retrouver les données.
 
 ```sbtshell
 $ sudo yum install filebeat
