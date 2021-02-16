@@ -24,6 +24,7 @@ Pour résumer : Le concept général est de créer des flux de données où les 
 - Enrichissement et préparation des données : Conversion entre formats (Json vers Avro ou XML...), extraction, parsing, routage des données en fonction du type de données...
 
 **Inconvénients :**<br/>
+
 - N'est pas fait pour du développement complexe : du calcul distribué, des jointures ou aggregations entre des données se trouvant dans des fichiers différents, ou des opérations complexes sur les données ou clacul de métriques.
 - Autant utiliser une solution plus classique : Apache Spark par exemple !!
 
