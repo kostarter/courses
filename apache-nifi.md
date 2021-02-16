@@ -6,7 +6,7 @@ Apache Nifi est un puissant outil open source de gestion de flux de données.</b
 
 - Il permet de gérer, automatiser, transformer, transférer des données entre plusieurs systèmes informatiques : Kafka, Amazon S3, HDFS, Base de données...
 - Il est scalable et peut être déployé sur des clusters de manière distribuée.
-- Il assure le No Data Loss, c'ests à dire qu'il garantit la livraison de la donnée.
+- Il assure le No Data Loss, c'est à dire qu'il garantit la livraison de la donnée.
 - Il gére la priorisation des flux, la bufferisatoin des données, la prise en compte des variations de débit (back pressure) et la gestion des flux (stream Vs. batch).
 - Il permet la traçabilité des données.
 - Il est extensible. Possibilité de créer ses propres processors/scripts.
@@ -42,8 +42,8 @@ http://localhost:8080/nifi/
 
 ### FlowFile
 
-Représente les flow de données dans Nifi. Donc chaque pièce de données dans Nifi est un FlowFile.</br>
-Chaque FlowFile possède des attributs sous le format Map clé/valeur (dont l'uuid) et un content (la donnée). Ils sont persistés sur le disque dés leur création.
+Représente les données dans Nifi. Donc chaque pièce de données dans Nifi est un FlowFile.</br>
+Chaque FlowFile possède des attributs sous le format Map clé/valeur (dont l'uuid) et un contenu (LA donnée). Ils sont persistés sur le disque dés leur création.
 
 ### Processor
 
@@ -73,7 +73,7 @@ Les processeurs sont groupés par catégorie :
 
 Sur un cluster Nifi, avec X machines, chaque machine aura son processeur, par exemple GetFile, qui va écouter sur le dossier de sa machine.
 
-**Gestion des attributs :**</br>
+**Gestion des attributs :**
 UpdateAttribute permet d'accéder et de modifier des attributs du FlowFile.</br>
 Il est également possible d'utiliser des attributs du processeur par d'autres processeurs de manière dynamique. Cela est possible pour les attributs pour lesquels est mentionné : "Expression language scope : Variable registry and FlowFile attributes."</br>
 La syntaxe pour utiliser un attribut du FlowFile est ${nom_attribut} ou ${filename:toUpper()} pour appeler une fonction.
@@ -91,13 +91,19 @@ Important : Lorsqu'on crée une variable via Nifi, il n'est pas nécessaire de r
 
 ### Connector
 
-Ils font les liens entre les processeurs. 
-Ils définissent des régles de filtrage et de priorité des FlowFile à traiter.
+Ils font les liens entre les processeurs. Ils définissent des régles de filtrage et de priorité des FlowFile à traiter.
 
-FlowFile expiration : Pour définir au bout de combien de temps on veut qu'un FlowFile qui rencontre cette queue soit supprimé.</br>
-Back Pressure : Pour définir le nombre d'objets maximum ou la taille maximum que peut contenir une queue. Cela permet d'éviter la surchage et le blocage du traitement.</br>
-Priorités : Définit la priorité pour traiter les FlowFile en entrée (FirstInFirstOut, PriorityAttribute, etc...).</br>
-Load Balancing Strategy : Distribuer à travers le cluster ou pas ? Le plus utilisé est le Round Robin pour distribuer équitablement.
+**FlowFile expiration :**
+Pour définir au bout de combien de temps on veut qu'un FlowFile qui rencontre cette queue soit supprimé.</br>
+
+**Back Pressure :**
+Pour définir le nombre d'objets maximum ou la taille maximum que peut contenir une queue. Cela permet d'éviter la surchage et le blocage du traitement.</br>
+
+**Priorités :**
+Définit la priorité pour traiter les FlowFile en entrée (FirstInFirstOut, PriorityAttribute, etc...).</br>
+
+**Load Balancing Strategy :**
+ Distribuer à travers le cluster ou pas ? Le plus utilisé est le Round Robin pour distribuer équitablement.
 
 ### Process Group
 
@@ -118,22 +124,22 @@ https://cwiki.apache.org/confluence/display/NIFI/Example+Dataflow+Templates
 ### Monitoring
 
 Les informations sont affichées sur la barre de monitoring en dessous de la barre d'outils, elles sont relatives au cluster.</br>
-Il y a également les statistiques affichées sur chaque processeurs : In (nb de FlowFile en entrée), Out (nb de FlowFile en sortie), Read/write (le de bytes lu et écrit par le processeur), Tasks/Time. Ces informations sont relatives au 5 dernière minutes.</br>
+Il y a également les statistiques affichées sur chaque processeurs : **In** (nb de FlowFile en entrée), **Out** (nb de FlowFile en sortie), **Read/write** (le de bytes lu et écrit par le processeur), **Tasks/Time**. Ces informations sont relatives au 5 dernière minutes.</br>
 Les informations sont raffraichies toutes les 30 secondes.</br>
 Bulletin Indicator : C'est un log d'erreur qui va s'afficher directement sur le processeur. Accessible via le menu contextuel en haut à droite. Egalement sur une période 5 minutes.
 
 **Status History :** Menu contextuel sur les composants.
 
-**NiFi Summary :** Menu contextuel en haut à droite pour une vue globale. Sur l'ecran apparait un lien **System diagnostics** pour des informations sur le système (JVM, RAM, etc...).
+**NiFi Summary :** Menu contextuel en haut à droite pour une vue globale. Sur l'ecran apparait un lien *System diagnostics* pour des informations sur le système (JVM, RAM, etc...).
 
 **Les logs :** Dans le fichier logs/nifi-app.log !
 
 Pour visualiser les metriques dans un outil externe comme Graphana ou Prometeus :
-Aller dans le menu contextuel à droite et choisir Controller Settings. Dans l'onglet Reporting Tasks vers ou remonter les metriques (par exemple celles d'Ambari).
+Aller dans le menu contextuel à droite et choisir *Controller Settings*. Dans l'onglet *Reporting Tasks* vers ou remonter les metriques (par exemple celles d'Ambari).
 
 **Data lineage :**
 Permet de suivre un FlowFile, toutes les modifications qu'il y a eu dessus, que ce soit au niveau des attributs ou du contenu,  par quel processeur il est passé, etc...
-Pour cela aller dans le menu contextuel à droite et choisir **Data Provenance**. Les champs de recherche peuvent être configurés dans le nifi.properties dans la section nifi.provenance.repository.indexed.fields !
+Pour cela aller dans le menu contextuel à droite et choisir *Data Provenance*. Les champs de recherche peuvent être configurés dans le nifi.properties dans la section nifi.provenance.repository.indexed.fields !
 
 #### Créer un processor avec Java
 
@@ -159,11 +165,10 @@ Creation de topic :
 
 ```sbtshell
 > ./kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic test-creation
-
 > ./kafka-topics.sh --zookeeper localhost:2181 --list
 ```
 
-Consumer :
+</br></br>Consumer :
 
 ```sbtshell
 > ./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test-creation
