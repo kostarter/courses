@@ -6,7 +6,7 @@ Apache Nifi est un puissant outil open source de gestion de flux de données.<br
 Il permet de gérer, automatiser, transformer, transférer des données entre plusieurs systèmes informatiques : Kafka, Amazon S3, HDFS, Base de données...
 Il est scalable et peut être déployé sur des clusters de manière distribuée.<br/>
 Enfin, Apache NiFi assure le No Data Loss, c'ests à dire qu'il garantit la livraison de la donnée.<br/>
-Gére la priorisation des flux, bufferisatoin des données, prise en compte des variations de débit (back pressure) et gestion des flux (stream Vs. batch).
+Gére la priorisation des flux, bufferisatoin des données, prise en compte des variations de débit (back pressure) et gestion des flux (stream Vs. batch).</br>
 Il posséde une interface web. Tout ce qu'il est possible de faire sur la webapp peut être fait via une API Rest.
 
 Pour résumer : Le concept général est de créer des flux de données où les données sont acheminées à travers des processeurs pour réaliser des traitements dessus.
