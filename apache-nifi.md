@@ -17,6 +17,7 @@ Pour résumer : Le concept général est de créer des flux de données où les 
 - Sécurité : SSL, HTTPS, chiffrement, etc...
 
 **Avantages :**<br/>
+
 - Interface web, Prototypage rapide (tester des traitements assez rapidement), facile d'utilisation, gratuit, open-source...
 - Bon pour le transfert  sécurisé de données entre différents systèles.
 - Bon également pour la livraison de données sur les plaateformes analytiques.
@@ -69,10 +70,10 @@ UpdateAttribute permet d'accéder et de modifier des attributs du FlowFile.<br/>
 Il est également possible d'utiliser des attributs du processeur par d'autres processeurs de manière dynamique. Cela est possible pour les attributs pour lesquels est mentionné : "Expression language scope : Variable registry and FlowFile attributes."<br/>
 La syntaxe pour utiliser un attribut du FlowFile est ${nom_attribut} ou ${filename:toUpper()} pour appeler une fonction.
 
-**Routing :**
+**Routing :**<br/>
 RouteOnAttribute permet de gérer le routage entre deux processeurs. Pour cela il faut définir une stratégie de routage dans l'onglet properties.
 
-**Variables et variables registry :**
+**Variables et variables registry :**<br/>
 Dans le fichier conf/nifi.properties vérifier la variable *nifi.variable.registry.properties* !
 Cette propriété permet de définir un fichier pour définir des propriétés customisées qui pourront ensuite être utilisées comme attributs de processeur de la manière qui suit : ${udemy.example.in}.
 Important : Tout changement des fichiers de properties nécessite le redémarrage de Nifi.
