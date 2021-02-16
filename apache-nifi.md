@@ -17,20 +17,18 @@ Pour résumer : Le concept général est de créer des flux de données où les 
 - Sécurité : SSL, HTTPS, chiffrement, etc...
 
 **Avantages :**<br/>
-* Interface web, Prototypage rapide (tester des traitements assez rapidement), facile d'utilisation, gratuit, open-source...
-* Bon pour le transfert  sécurisé de données entre différents systèles.
-* Bon également pour la livraison de données sur les plaateformes analytiques.
-* Enrichissement et préparation des données : Conversion entre formats (Json vers Avro ou XML...), extraction, parsing, routage des données en fonction du type de données...
+- Interface web, Prototypage rapide (tester des traitements assez rapidement), facile d'utilisation, gratuit, open-source...
+- Bon pour le transfert  sécurisé de données entre différents systèles.
+- Bon également pour la livraison de données sur les plaateformes analytiques.
+- Enrichissement et préparation des données : Conversion entre formats (Json vers Avro ou XML...), extraction, parsing, routage des données en fonction du type de données...
 
 **Inconvénients :**<br/>
-* N'est pas fait pour du développement complexe : du calcul distribué, des jointures ou aggregations entre des données se trouvant dans des fichiers différents, ou des opérations complexes sur les données ou clacul de métriques.
-* Autant utiliser une solution plus classique : Apache Spark par exemple !!
-
+- N'est pas fait pour du développement complexe : du calcul distribué, des jointures ou aggregations entre des données se trouvant dans des fichiers différents, ou des opérations complexes sur les données ou clacul de métriques.
+- Autant utiliser une solution plus classique : Apache Spark par exemple !!
 
 ### Installation :
 
-Télécharger le tar.gz.
-Lancer avec la commande :
+Télécharger le tar.gz, le décompresser et lancer la commande :
 ```sbtshell
 ./bin/nifi.sh start
 ```
@@ -38,8 +36,7 @@ http://localhost:8080/nifi/
 
 ### FlowFile :
 Représente les flow de données dans Nifi. Donc chaque pièce de données dans Nifi est un FlowFile.
-Chaque FlowFile possède des attributs sous le format Map clé/valeur (dont l'uuid) et un content (la donnée).
-Ils sont persistés sur le disque dés leur création.
+Chaque FlowFile possède des attributs sous le format Map clé/valeur (dont l'uuid) et un content (la donnée). Ils sont persistés sur le disque dés leur création.
 
 ### Processor :
 Ce sont les processeurs qui travaillent : Ils eçoivent en entrée des FlowFile en générent des nouveaux en sortie.<br/> 
@@ -113,6 +110,7 @@ Les informations sont raffraichies toutes les 30 secondes.<br/>
 Bulletin Indicator : C'est un log d'erreur qui va s'afficher directement sur le processeur. Accessible via le menu contextuel en haut àdroite. Egalement sur une période 5 minutes.<br/>
 
 **Status History :** Menu contextuel sur les composants.<br/>
+
 **NiFi Summary :** Menu contextuel en haut à droite pour une vue globale. Sur l'ecran apparait un lien "system diagnostics" pour des informations sur le système (JVM, RAM, etc...).<br/>
 
 **Les logs :** Dans le fichier logs/nifi-app.log !
@@ -129,14 +127,12 @@ Sous intellij :
 https://how-to-nifi.blogspot.com/2017/10/how-to-make-new-nifi-processor.html<br/>
 Une fois le ficher .nar produit le copier dans le répertoire lib de nifi.
 
-
 ## Nifi et Kafka :
 
 Lancer ZooKeeper :
 ```sbtshell
 $ ./zkServer.sh start
 ```
-
 Lancer Kafka :
 ```sbtshell
 $ ./kafka-server-start.sh ../config/server.properties
