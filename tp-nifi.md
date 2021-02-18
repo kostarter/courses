@@ -49,7 +49,7 @@ Lancer Nifi avec la commande :
 ```
 
 Aller sur : 
-http://localhost:8080/nifi/
+http://URL:8080/nifi/
 
 ![Nifi workshop](https://i.ibb.co/xSXNG5v/Screenshot-2021-02-18-Ni-Fi-Flow.png)
 
