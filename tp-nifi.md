@@ -16,6 +16,9 @@ Aller https://www.alphavantage.co/ et créer un compte pour obtenir le token qui
 
 > https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=TOKEN&datatype=csv
 
+Récupérer une API Key, et requêter les données à 30 secondes de fréquence.</br>
+Commencer par un seul stock pour tester et prévoir dans l’architecture de monter à plusieurs Stocks sans changer le code.
+
 *  Pour chaque action nous recevons les plus hautes et plus basses valeurs de marché, mais aussi les valeurs à l'ouverture et la fermeture des marchés (OHLC) :</br>
 
 > https://www.investopedia.com/terms/o/ohlcchart.asp
