@@ -84,12 +84,12 @@ Nous allons découper le traitement en trois lots :
 
 ![Nifi workshop](https://i.ibb.co/6H11VgZ/Screenshot-2021-02-18-Ni-Fi-Flow-00.png)
 
-### Récupération des données Alpha Vantage.
+### Etape 1 : Récupération des données Alpha Vantage.
 ![Nifi workshop](https://i.ibb.co/k9J8kdz/Screenshot-2021-02-18-Ni-Fi-Flow-01.png)
 
-Appeler le service Alpha Vantage. </br>
+1. Appeler le service Alpha Vantage.</br>
 
-Prévoir un écart de 30 secondes entre deux appels. Faut pas oublier que le compte est gratuit et ne permet pas plus de 5 appels par minutes.
+Prévoir un écart de 30 secondes entre deux appels. Faut pas oublier que le compte est gratuit et ne permet pas plus de 5 appels par minute.
 
 ![Nifi workshop](https://i.ibb.co/4gkR7Qx/Screenshot-2021-02-18-Ni-Fi-Flow-02.png)
 
@@ -97,18 +97,18 @@ Importer le certificat nécessaire pour appeler le service Rest en HTTPS :
 
 ![Nifi workshop](https://i.ibb.co/M7LbZF2/Screenshot-from-2021-02-18-14-52-59.png)
 
-Charger le certificat dans un Keystore : 
+Charger le certificat dans un Keystore. Le chemin vers keystore doit être spécifié dans les properties du Processor GetHttp : 
 ```sbtshell
 keytool -import -v -trustcacerts \
     -file alphavantage.co.cer -alias alphaca \
     -keystore cacerts.jks
 ```
-
-Mettre à jour le nom du fichier en sortie avec un nom unique basé sur le current time :
+  
+2. Mettre à jour le nom du fichier en sortie avec un nom unique basé sur le current time :
 
 ![Nifi workshop](https://i.ibb.co/vwJkJq3/Screenshot-2021-02-18-Ni-Fi-Flow-03.png)
 
-Stocker les fichiers csv dans le dossier de sortie :
+3. Stocker les fichiers csv dans le dossier de sortie :
 
 ![Nifi workshop](https://i.ibb.co/tcjxJRz/Screenshot-2021-02-18-Ni-Fi-Flow-04.png)
 
@@ -116,29 +116,35 @@ On voit que les fichiers sont déposés dans le dossier défini dans le processo
 
 ![Nifi workshop](https://i.ibb.co/ZhRgrdx/Screenshot-from-2021-02-18-14-28-00.png)
 
-### Découpage des données et envoi vers un broker Kafka.
+### Etape 2 Découpage des données et envoi vers un broker Kafka.
 
 ![Nifi workshop](https://i.ibb.co/DrDgqRx/Screenshot-2021-02-18-Ni-Fi-Flow-05.png)
 
-Récupérer les fichiers stockés dans le dossier de sortie :
+1. Récupérer les fichiers stockés dans le dossier de sortie :
 
 ![Nifi workshop](https://i.ibb.co/M1BjLsm/Screenshot-2021-02-18-Ni-Fi-Flow-06.png)
 
-Déduire le nom du topic Kafka à partir du nom du fichier :
+2. Déduire le nom du topic Kafka à partir du nom du fichier :
 
 ![Nifi workshop](https://i.ibb.co/m6cJmMb/Screenshot-2021-02-18-Ni-Fi-Flow-07.png)
 
-Supprimer la ligne d'en-tête du fichier csv :
+3. Supprimer la ligne d'en-tête du fichier csv :
 
+```sbtshell
+timestamp,open,high,low,close,volume
+2021-02-16 20:00:00,2109.9900,2110.6000,2109.9900,2110.6000,445
+2021-02-16 17:05:00,2110.7000,2110.7000,2110.7000,2110.7000,1725
+...
+```
 ![Nifi workshop](https://i.ibb.co/HdY27RD/Screenshot-2021-02-18-Ni-Fi-Flow-08.png)
 
-Envoyer les lignes OHLC vers Kafka :
+4. Envoyer les lignes OHLC vers Kafka :
 
 ![Nifi workshop](https://i.ibb.co/ZN6m37B/Screenshot-2021-02-18-Ni-Fi-Flow-09.png)
 
 Attention : Pour que le producteur Kafka fonctionne il faut décrire le schéma du fichier CSV.
 
-### Récupération des données et stockage dans une base de données MongoDB.
+### Etape 3 : Récupération des données et stockage dans une base de données MongoDB.
 
 > MongoDB est un système de gestion de base de données orienté documents, répartissable sur un nombre quelconque d'ordinateurs et ne nécessitant pas de schéma prédéfini des données.
 
@@ -148,21 +154,21 @@ Attention : Pour que le producteur Kafka fonctionne il faut décrire le schéma 
 
 MLab est un site qui permet de créer une base de données MongoDB sur le cloud. Les instructions d'inscription et de création d'une BD sont en annexe de ce document.
 
-Consommateur Kafka :
+1. Consommateur Kafka :
 
 ![Nifi workshop](https://i.ibb.co/W2ynpbF/Screenshot-2021-02-18-Ni-Fi-Flow-11.png)
 
 MogoDB est une base de données basée sur le format Json. Il faut donc veiller à transformer chaque ligne csv reçue en Json.
 
-1. On commence par extraire les données grâce à une expression régulière :
+2. On commence par extraire les données grâce à une expression régulière :
 
 ![Nifi workshop](https://i.ibb.co/0m368Tw/Screenshot-2021-02-18-Ni-Fi-Flow-12.png)
 
-2. On construit le Json en modifiant le contenu du FlowFile à l'aide des valeurs extraites durant l'étape précédente :
+3. On construit le Json en modifiant le contenu du FlowFile à l'aide des valeurs extraites durant l'étape précédente :
 
 ![Nifi workshop](https://i.ibb.co/WkP23MJ/Screenshot-2021-02-18-Ni-Fi-Flow-13.png)
 
-Envoi du Json créé vers la base de données MongoDB :
+4. Envoi du Json créé vers la base de données MongoDB :
 
 ![Nifi workshop](https://i.ibb.co/D1pBzNw/Screenshot-2021-02-18-Ni-Fi-Flow-14.png)
 
