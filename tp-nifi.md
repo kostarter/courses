@@ -37,6 +37,11 @@ Commencer par un seul stock pour tester et prévoir dans l’architecture de mon
 
 ## Installation des outils
 
+#### Java
+
+```sbtshell
+sudo amazon-linux-extras install java-openjdk11 
+```
 #### Apache NiFi
 
 Télécharger Apache NiFi :
@@ -56,26 +61,25 @@ http://URL:8080/nifi/
 
 ![Nifi workshop](https://i.ibb.co/xSXNG5v/Screenshot-2021-02-18-Ni-Fi-Flow.png)
 
-#### Apache Kafka et Zookeeper
+#### Apache Kafka et Apache Zookeeper
 
 Télécharger Apache Kafka et Zookeeper :
 ```sbtshell
-> wget https://www.apache.org/dyn/closer.cgi?path=/kafka/2.7.0/kafka_2.12-2.7.0.tgz
-> tar -xvf kafka_2.12-2.7.0.tgz
+> wget https://archive.apache.org/dist/kafka/2.5.0/kafka_2.12-2.5.0.tgz
 
-> wget https://apache.mediamirrors.org/zookeeper/zookeeper-3.6.2/apache-zookeeper-3.6.2-bin.tar.gz
-> tar -xvf apache-zookeeper-3.6.2-bin.tar.gz
+> tar -xzf kafka_2.12-2.5.0.tgz
+> cd kafka_2.12-2.5.0
+
 ```
 
 1. Lancer ZooKeeper :
 ```sbtshell
-$ ./bin/zkServer.sh start
+> ./bin/zookeeper-server-start.sh config/zookeeper.properties > zk.log &
 ```
 
 2. Lancer Kafka avec la commande :
 ```sbtshell
-> cd kafka_2.12-2.7.0
-> ./bin/kafka-server-start.sh ../config/server.properties
+> bin/kafka-server-start.sh config/server.properties > ks.log &
 ```
 
 ## Réalisation
