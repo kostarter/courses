@@ -113,11 +113,7 @@ keytool -import -v -trustcacerts \
   
 2. Mettre à jour le nom du fichier en sortie avec un nom unique basé sur le current time :
 
-![Nifi workshop](https://i.ibb.co/vwJkJq3/Screenshot-2021-02-18-Ni-Fi-Flow-03.png)
-
 3. Stocker les fichiers csv dans le dossier de sortie :
-
-![Nifi workshop](https://i.ibb.co/tcjxJRz/Screenshot-2021-02-18-Ni-Fi-Flow-04.png)
 
 On voit que les fichiers sont déposés dans le dossier défini dans le processor :
 
@@ -129,11 +125,7 @@ On voit que les fichiers sont déposés dans le dossier défini dans le processo
 
 1. Récupérer les fichiers stockés dans le dossier de sortie :
 
-![Nifi workshop](https://i.ibb.co/M1BjLsm/Screenshot-2021-02-18-Ni-Fi-Flow-06.png)
-
 2. Déduire le nom du topic Kafka à partir du nom du fichier :
-
-![Nifi workshop](https://i.ibb.co/m6cJmMb/Screenshot-2021-02-18-Ni-Fi-Flow-07.png)
 
 3. Supprimer la ligne d'en-tête du fichier csv :
 
@@ -143,11 +135,8 @@ timestamp,open,high,low,close,volume
 2021-02-16 17:05:00,2110.7000,2110.7000,2110.7000,2110.7000,1725
 ...
 ```
-![Nifi workshop](https://i.ibb.co/HdY27RD/Screenshot-2021-02-18-Ni-Fi-Flow-08.png)
 
 4. Envoyer les lignes OHLC vers Kafka :
-
-![Nifi workshop](https://i.ibb.co/ZN6m37B/Screenshot-2021-02-18-Ni-Fi-Flow-09.png)
 
 Attention : Pour que le producteur Kafka fonctionne il faut décrire le schéma du fichier CSV.
 
@@ -163,21 +152,13 @@ MLab est un site qui permet de créer une base de données MongoDB sur le cloud.
 
 1. Consommateur Kafka :
 
-![Nifi workshop](https://i.ibb.co/W2ynpbF/Screenshot-2021-02-18-Ni-Fi-Flow-11.png)
-
 MogoDB est une base de données basée sur le format Json. Il faut donc veiller à transformer chaque ligne csv reçue en Json.
 
-2. On commence par extraire les données grâce à une expression régulière :
-
-![Nifi workshop](https://i.ibb.co/0m368Tw/Screenshot-2021-02-18-Ni-Fi-Flow-12.png)
+2. On commence par extraire les données grâce à une expression régulière.
 
 3. On construit le Json en modifiant le contenu du FlowFile à l'aide des valeurs extraites durant l'étape précédente :
 
-![Nifi workshop](https://i.ibb.co/WkP23MJ/Screenshot-2021-02-18-Ni-Fi-Flow-13.png)
-
 4. Envoi du Json créé vers la base de données MongoDB :
-
-![Nifi workshop](https://i.ibb.co/D1pBzNw/Screenshot-2021-02-18-Ni-Fi-Flow-14.png)
 
 ### Les données sont dans MongoDB !!!
 
