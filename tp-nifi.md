@@ -74,11 +74,13 @@ Télécharger Apache Kafka et Zookeeper :
 
 1. Lancer ZooKeeper :
 ```sbtshell
+> sudo su
 > ./bin/zookeeper-server-start.sh config/zookeeper.properties > zk.log &
 ```
 
 2. Lancer Kafka avec la commande :
 ```sbtshell
+> sudo su
 > bin/kafka-server-start.sh config/server.properties > ks.log &
 ```
 
