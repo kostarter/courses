@@ -110,7 +110,10 @@ keytool -import -v -trustcacerts \
     -file alphavantage.co.cer -alias alphaca \
     -keystore cacerts.jks
 ```
-  
+```sbtshell
+scp -i NIFI-2020.pem sni_cloudflaressl_com.crt ec2-user@ec2-15-237-130-102.eu-west-3.compute.amazonaws.com:/home/ec2-user
+```
+
 2. Mettre à jour le nom du fichier en sortie avec un nom unique basé sur le current time :
 
 3. Stocker les fichiers csv dans le dossier de sortie :
