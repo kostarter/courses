@@ -106,12 +106,13 @@ Importer le certificat nécessaire pour appeler le service Rest en HTTPS :
 
 Charger le certificat dans un Keystore. Le chemin vers keystore doit être spécifié dans les properties du Processor GetHttp : 
 ```sbtshell
+scp -i NIFI-2020.pem sni_cloudflaressl_com.crt ec2-user@ec2-15-237-130-102.eu-west-3.compute.amazonaws.com:/home/ec2-user
+```
+
+```sbtshell
 keytool -import -v -trustcacerts \
     -file alphavantage.co.cer -alias alphaca \
     -keystore cacerts.jks
-```
-```sbtshell
-scp -i NIFI-2020.pem sni_cloudflaressl_com.crt ec2-user@ec2-15-237-130-102.eu-west-3.compute.amazonaws.com:/home/ec2-user
 ```
 
 2. Mettre à jour le nom du fichier en sortie avec un nom unique basé sur le current time :
