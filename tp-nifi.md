@@ -65,23 +65,23 @@ http://URL:8080/nifi/
 
 Télécharger Apache Kafka et Zookeeper :
 ```sbtshell
-> wget https://archive.apache.org/dist/kafka/2.5.0/kafka_2.12-2.5.0.tgz
+wget https://archive.apache.org/dist/kafka/2.5.0/kafka_2.12-2.5.0.tgz
 
-> tar -xzf kafka_2.12-2.5.0.tgz
-> cd kafka_2.12-2.5.0
+tar -xzf kafka_2.12-2.5.0.tgz
+cd kafka_2.12-2.5.0
 
 ```
 
 1. Lancer ZooKeeper :
 ```sbtshell
-> sudo su
-> ./bin/zookeeper-server-start.sh config/zookeeper.properties > zk.log &
+sudo su
+./bin/zookeeper-server-start.sh config/zookeeper.properties > zk.log &
 ```
 
 2. Lancer Kafka avec la commande :
 ```sbtshell
-> sudo su
-> ./bin/kafka-server-start.sh config/server.properties > ks.log &
+sudo su
+./bin/kafka-server-start.sh config/server.properties > ks.log &
 ```
 
 ## Réalisation
