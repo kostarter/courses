@@ -46,14 +46,14 @@ sudo amazon-linux-extras install java-openjdk11
 
 Télécharger Apache NiFi :
 ```sbtshell
-> wget https://archive.apache.org/dist/nifi/1.11.4/nifi-1.11.4-bin.tar.gz
-> tar -xvf nifi-1.11.4-bin.tar.gz
+wget https://archive.apache.org/dist/nifi/1.11.4/nifi-1.11.4-bin.tar.gz
+tar -xvf nifi-1.11.4-bin.tar.gz
 ```
 
 Lancer Nifi avec la commande :
 ```sbtshell
-> cd nifi-1.11.4/
-> ./bin/nifi.sh start
+cd nifi-1.11.4/
+./bin/nifi.sh start
 ```
 
 Aller sur : 
