@@ -68,7 +68,7 @@ Dire à elasticsearch comment stocker le jeu de données Shakespeare :
 $ wget http://media.sundog-soft.com/es7/shakes-mapping.json
 $ curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/shakespeare --data-binary @shakes-mapping.json
 ```
-TODO : Est-ce-que cela crée l'index ?
+TODO : Est-ce-que cela crée l'index ? OUI !
 
 ```json
 {
