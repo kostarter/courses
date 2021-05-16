@@ -183,17 +183,17 @@ When talking about discrete data it is about Probability Mass Function. It works
 * **Uniform Distribution :** It is a flat, constant probability of a value occurring within a given range.
 ![Machine Learning](img/screenshot_2021-05-15_machine_learning_in_python_(data_science_and_deep_learning)_003.png)
 
-- **Normal / Gaussian Distribution :** The major number of data is around the mean.
+- **Normal / Gaussian Distribution :** The major number of data is around the mean.<br/>
 ![Machine Learning](img/screenshot_2021-05-15_machine_learning_in_python_(data_science_and_deep_learning)_004.png)
 ![Machine Learning](img/screenshot_2021-05-15_machine_learning_in_python_(data_science_and_deep_learning)_005.png)
 
-- Exponential PDF / Power Law :** Values fall off in an exponential manner.
+- Exponential PDF / Power Law :** Values fall off in an exponential manner.<br/>
 ![Machine Learning](img/screenshot_2021-05-15_machine_learning_in_python_(data_science_and_deep_learning)_006.png)
 
-- **Binomial Probability Mass Function :** It deals with discrete.
+- **Binomial Probability Mass Function :** It deals with discrete.<br/>
 ![Machine Learning](img/screenshot_2021-05-15_machine_learning_in_python_(data_science_and_deep_learning)_007.png)
 
-- **Poisson Probability Mass Function :** If we have some information about the average number of things that happen in some period of time. Can be used to use predictions.
+- **Poisson Probability Mass Function :** If we have some information about the average number of things that happen in some period of time. Can be used to use predictions.<br/>
 ![Machine Learning](img/screenshot_2021-05-15_machine_learning_in_python_(data_science_and_deep_learning)_008.png)
 
 ### Percentiles
