@@ -4,16 +4,23 @@
   <img src="https://blog.nameshield.com/fr/wp-content/uploads/sites/3/2017/04/r%C3%A9solution-dns-2-5.jpg"/>
 </p>
 
+Installation de l'environnement de travail pour le TP :
+
 ```console
 $ git clone https://github.com/kleosdc/dns-exfil-infil
 
-$ sudo pip3 install -r requirements.txt
+$ sudo pip3 install base58
+$ sudo pip3 install pyshark
 ```
+
+Iodine permet de tunneler les données IPv4 via un serveur DNS. Cela peut être utile dans différentes situations où l'accès Internet est protégé par un pare-feu, mais les requêtes DNS sont autorisées.
 
 Installer iodine :
 ```console
 $ sudo apt install iodine
 ```
+
+Wireshark est un analyseur de paquets libre et gratuit. 
 
 Installer Wireshark :
 ```console
