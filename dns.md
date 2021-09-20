@@ -1,13 +1,27 @@
 ## Manipulation de DNS
 
+Lors de ce TP nous explorerons les techniques utilisées pour exfiltrer et infiltrer les données à travers des serveurs DNS.<br/>
+
+A quoi servent les serveurs DNS ?<br/>
+Le DNS est un système de noms de domaine faisant référence à un système de nommage qui résout les noms de domaine avec des adresses IP. Les serveurs DNS sont répartis dans le monde entier et sont constamment mis à jour et synchronisés entre eux de manière systématique.
 <p align="center">
   <img src="https://blog.nameshield.com/fr/wp-content/uploads/sites/3/2017/04/r%C3%A9solution-dns-2-5.jpg"/>
 </p>
 
-Installation de l'environnement de travail pour le TP :
+L'objet sera d'explorer les techniques pour exfiltrer et infiltrer les données ainsi que le Tunneling de DNS Tunneling et comment il peut être utilisé pour bypasser différents protocoles comme HTTP via DNS.
+
+<p align="center">
+  <img src="https://cdn.discordapp.com/attachments/798799811482353734/798809211060355092/intro-2-1.png"/>
+</p>
+
+##### Installation de l'environnement de travail pour le TP :
 
 ```console
 $ git clone https://github.com/kleosdc/dns-exfil-infil
+
+$ sudo apt-get update
+$ sudo apt-get install python3-pip
+$ export PATH=/usr/local/bin:$PATH
 
 $ sudo pip3 install base58
 $ sudo pip3 install pyshark
@@ -17,14 +31,14 @@ Iodine permet de tunneler les données IPv4 via un serveur DNS. Cela peut être 
 
 Installer iodine :
 ```console
-$ sudo apt install iodine
+$ sudo apt-get install iodine
 ```
 
 Wireshark est un analyseur de paquets libre et gratuit. 
 
 Installer Wireshark :
 ```console
-$ sudo apt install -y tshark
+$ sudo apt-get install tshark
 ```
 
 ---
