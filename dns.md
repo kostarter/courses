@@ -1,6 +1,9 @@
 ## Manipulation de DNS
 
-Installer l'environnement sur la machine Kali Linux :
+<p align="center">
+  <img src="https://blog.nameshield.com/fr/wp-content/uploads/sites/3/2017/04/r%C3%A9solution-dns-2-5.jpg"/>
+</p>
+
 ```console
 $ git clone https://github.com/kleosdc/dns-exfil-infil
 
