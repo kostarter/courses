@@ -102,12 +102,15 @@ Réponse : -oG
 
 Comment activer l'option "aggressive" pour obtenir davatange d'informations sur la machine cible ?
 ```console
+$ nmap -h | grep -i traceroute
+```
+```console
 Réponse : -A
 ```
 
 Comment calibrer la vitesse des scans exécutés par nmap au maximum ? <br/> Un scan rapide peut a plus de risque de générer des erreurs ou d'être détectable.
 ```console
-$ nmap -h | grep -i traceroute
+$ nmap -h | grep -i timing
 ```
 ```console
 Réponse : -T5
@@ -115,7 +118,7 @@ Réponse : -T5
 
 Comment spécifier le port à scanner sur la machine cible ? Le port 80 par exemple.
 ```console
-$ nmap -h | grep -i timing
+$ nmap -h | grep -i port
 ```
 ```console
 Réponse : -p 80
@@ -131,14 +134,18 @@ Comment dire à nmap de scanner tous les ports ?
 Réponse : -p-
 ```
 
-Comment activer un script parmi les cripts de la librairie nmap ?
+Comment activer un script parmi les scripts de la librairie nmap ?
+```console
+$ nmap -h | grep -i script
+```
 ```console
 Réponse : --script
 ```
 
 Comment activer les script de la catégorie "vuln" ?
 ```console
-$ nmap -h | grep -i script
+$ cd /usr/share/nmap/scripts
+$ ls *vul*
 ```
 ```console
 Réponse : --script=vuln
@@ -173,6 +180,10 @@ Réponse : N
 ---
 
 Lorsqu'un port UDP ne répond pas au scan de namp, il est marqué comme étant ?
+Try a Xmas scan :
+```console
+$ nmap -sX -p1-999 -vv ADRESSE_IP
+```
 ```console
 Réponse : open|filtered
 ```
@@ -201,6 +212,7 @@ Réponse : Microsoft Windows
 
 ---
 
+:construction: <br/>
 Comment réaliser un balayage de ping sur le réseau 172.16.x.x (Netmask: 255.255.0.0) en utilisant nmap ?
 ```console
 $ nmap -sn 172.16.0.0/16
@@ -215,6 +227,7 @@ En quel langage sont écrits les script NSE (Nmap Scripting Engine) de namp ?
 Réponse : lua
 ```
 
+:construction: <br/>
 Quelle catégorie de scripts serait-il fort risqué d'exécuter en environnement de production ?
 ```console
 Réponse : intrusive
@@ -226,6 +239,7 @@ Quel argument optionnel le script ftp-anon.nse peut-il prendre ?
 ```console
 Réponse : maxlist
 ```
+Liste d'utilisateurs anonymes à tester sur la cible.
 
 ---
 
@@ -287,7 +301,7 @@ Comment expliquer cela ? L'utilisation de l'option -vv vous sera très utile.
 Réponse : no responses
 ```
 
-Réaliser un scan de type TCP CYN sur les 5000 premiers ports de la machine cible. Combien de ports sont marqués comme open ?
+Réaliser un scan de type TCP SYN sur les 5000 premiers ports de la machine cible. Combien de ports sont marqués comme open ?
 ```console
 $ sudo nmap -sS -p 1-5000 --open -Pn ADRESSE_IP
 [sudo] password for kali: 
@@ -310,9 +324,10 @@ Nmap done: 1 IP address (1 host up) scanned in 26.52 seconds
 Réponse : 5
 ```
 
+🚧 <br/>
 Déployer le script ftp-anon. Le nmap peut-il se connecter avec succés au FTP sur le port 21 ?
 ```console
-$ nmap --script ftp-anon -p 21 10.10.36.6
+$ sudo nmap --script ftp-anon -p 21 ADRESSE_IP
 Starting Nmap 7.91 ( https://nmap.org ) at 2021-05-18 21:04 CET
 Nmap scan report for 10.10.37.8
 Host is up (0.069s latency).
