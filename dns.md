@@ -50,7 +50,7 @@ Sous Windows, quelle commande utiliser pour requêter un enregistrement txt pour
 Réponse : nslookup type=txt youtube.com
 ```
 
-Sous Linux, quelle commande utiliser pour requêter un enregistrement txt pour YouTube.com ?
+Sous Linux, quelle commande utiliser pour requêter un enregistrement txt pour Facebook.com ?
 ```console
 Réponse : dig -t txt facebook.com
 ```
