@@ -72,17 +72,26 @@ Réponse : PTR
 
 Quel serait le résultat d'un reverse-lookup pour l'adresse IPv4 suivante : 192.168.203.2 ?
 ```console
+$ dig -x 192.168.203.2
+```
+
+```console
 Réponse : 2.203.168.192.in-addr.arpa
 ```
 
 Quelle est la taille maximale d'un nom DNS ? (en incluant les points!)
 ```console
-253
+Réponse : 253
 ```
 
 ---
 
 #### Exfiltration DNS :
+
+TODO : A completer :construction:
+L'exfiltration DNS est une technique qui consiste à utiliser le DNS pour dérober des données.
+Cette technique est principalement utilisée comme moyen de collecter des informations personnelles telles que les numéros de sécurité sociale, la propriété intellectuelle ou d'autres informations personnellement identifiables.
+Cela consiste à ajouter des chaînes contenant le « butin » souhaité aux requêtes DNS UDP. La chaîne contenant le butin est alors envoyée à un serveur DNS malveillant qui enregistre ces requêtes. Pour un oeil non averti, cela pourrait ressembler à un trafic DNS normal ou ces demandes pourraient être perdues dans le mélange de nombreuses demandes DNS légitimes.
 
 Se connecter à la machine cible en SHH en utilisant les crédentials :
 * Utilsateur : user
@@ -94,13 +103,21 @@ Parcourir les fichiers dans les dossiers :
 ~/dns-exfil-infil/
 ```
 
+Aller dans le dossier ci-dessous et lire les instructions dans le fichier TASK :
 ```console
-cd ~/challenges/exfiltration/orderlist
-tshark -r order.pcap -T fields -e dns.qry.name > DNS_names.txt
-python3 ~/dns-exfil-infil/packetyGrabber.py
+$ cd ~/challenges/exfiltration/orderlist
 ```
 
-Ignorer l'exception levée à la fin du script
+Le .pcap extension de fichier est principalement associée avec Wireshark; un programme utilisé pour l'analyse de réseaux. .pcap fichiers sont des fichiers de données créés en utilisant le programme et ils contiennent les données en paquets d'un réseau. Ces fichiers sont utilisés principalement dans l'analyse des caractéristiques du réseau d'un certain données. Ces fichiers contribuent également à contrôler avec succès le trafic d'un certain réseau depuis qu'ils sont surveillés par le programme.
+
+TODO : Que fait cette commande ? :construction:
+Analysons le fichier order.pcap :
+```
+$ tshark -r order.pcap -T fields -e dns.qry.name > DNS_names.txt
+$ python3 ~/dns-exfil-infil/packetyGrabber.py
+```
+
+Ignorer l'exception levée à la fin du script.
 
 Quel est le nom de la première transation ? 
 ```console
@@ -111,7 +128,8 @@ Quel est le montant de la transaction Firewall ?
 ```console
 Réponse : 2500
 ```
-Aller dans le dossier :
+
+Aller dans le dossier ci-dessous et lire les instructions dans le fichier TASK :
 ```console
 ~/challenges/exfiltration/identity
 ```
@@ -119,12 +137,15 @@ Aller dans le dossier :
 Pour chaque fichier *.pcap
 ```console
 tshark -r cap1.pcap -T fields -e dns.qry.name
-python3 ~/dns-exfil-infil/packetyGrabber.py
 ```
 
 Quel fichier contient des requêtes DNS douteuses ?
 ```console
 Réponse : cap3.pcap
+```
+
+```console
+python3 ~/dns-exfil-infil/packetyGrabber.py
 ```
 
 Renseigner les texte après avoir décodé les données en utilisant le programe Pyhton packetyGrabber.py qui se trouve dans le dossier `~/dns-exfil-infil/`.
@@ -135,6 +156,9 @@ Réponse : administrator:s3cre7P@ssword
 ---
 
 #### Infiltration DNS :
+
+TODO : A completer :construction:
+L'infiltration DNS est une autre technique d'attaque qui exploite les vulnérabilités des DNS. Cette technique passe par un code malveillant qui est exécuté pour manipuler les serveurs DNS soit à l'aide de systèmes automatisés où les attaquants se connectent à distance à l'infrastructure réseau, soit manuellement. Le but étant souvent de supprimer de manière frauduleuse des fichiers ou d'exécuter du code sur les machines ciblées.
 
 Lire les instructions dans le fichier : 
 ```console
