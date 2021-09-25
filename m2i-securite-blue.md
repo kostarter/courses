@@ -104,7 +104,7 @@ Vérifier le satut de la vulnérabilité sur la machine cible :<br/>
 ⚠️ Le port TCP 445 est aujourd’hui réservé pour établir la connexion et le transfert via TCP/SMB.
 
 ```console
-nmap -sS -Pn -p 445 ADRESSE_IP --script smb-vuln-ms17-010.nse
+$ nmap -sS -Pn -p 445 ADRESSE_IP --script smb-vuln-ms17-010.nse
 ```
 
 ```console
