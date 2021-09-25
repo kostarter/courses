@@ -135,6 +135,8 @@ Comprendre la vulnérabilité pour préparer l'attaque : <br/>
 
 #### Attaque exploit :
 
+**Metasploit** est un projet en relation avec la sécurité des systèmes informatiques. Son but est de fournir des informations sur les vulnérabilités de systèmes informatiques, d'aider à la pénétration et au développement de signatures pour les systèmes de détection d'intrusion.
+
 Prise en main de Metasploit :
 
 ```console
