@@ -152,32 +152,32 @@ Une fois le ficher .nar produit le copier dans le répertoire lib de nifi.
 Lancer ZooKeeper :
 
 ```sbtshell
-> ./zkServer.sh start
+$ ./zkServer.sh start
 ```
 
 Lancer Kafka :
 
 ```sbtshell
-> ./kafka-server-start.sh ../config/server.properties
+$ ./kafka-server-start.sh ../config/server.properties
 ```
 
 Creation de topic :
 
 ```sbtshell
-> ./kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic test-creation
-> ./kafka-topics.sh --zookeeper localhost:2181 --list
+$ ./kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic test-creation
+$ ./kafka-topics.sh --zookeeper localhost:2181 --list
 ```
 
 </br></br>Consumer :
 
 ```sbtshell
-> ./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test-creation
+$ ./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test-creation
 ```
 
 Producer :
 
 ```sbtshell
-> ./kafka-console-produr.sh --broker-list localhost:9092 --topic test-creation
+$ ./kafka-console-produr.sh --broker-list localhost:9092 --topic test-creation
 ```
 
 Dans Nifi :</br>
