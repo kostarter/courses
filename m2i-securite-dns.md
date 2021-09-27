@@ -60,7 +60,7 @@ Quel type d'adresses IP stocke le AAAA avec le nom de hôte ?
 Réponse : IPv6
 ```
 
-Le nombre maximum de caracttères pour un enrigrement DNS est de 256. Vrai/Faux ?
+Le nombre maximum de caractères pour un enrigrement DNS est de 256. Vrai/Faux ?
 ```console
 Réponse : Faux
 ```
@@ -96,7 +96,7 @@ Cela consiste à ajouter des chaînes contenant le « butin » souhaité aux req
   <img src="https://cdn.discordapp.com/attachments/798799811482353734/807298488881643550/exfil.png"/>
 </p>
 
-Se connecter à la machine cible en SHH en utilisant les crédentials :
+Se connecter à la machine cible en SSH en utilisant les crédentials :
 * Utilsateur : user
 * Mot de passe : P@ssword01
 
