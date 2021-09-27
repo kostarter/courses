@@ -10,7 +10,6 @@
 * Creating external table Example - Create table on weather data :
   
 ```sql
-  CREATE EXTERNAL TABLE weather (
   CREATE EXTERNAL TABLE weather (temperature INT, date STRING)
   ROW FORMAT DELIMITED
   FIELDS TERMINATED BY ','
