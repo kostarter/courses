@@ -20,7 +20,7 @@ Il posséde une interface web. Tout ce qu'il est possible de faire sur la webapp
 
 - Interface web, Prototypage rapide (tester des traitements assez rapidement), facile d'utilisation, gratuit, open-source...
 - Bon pour le transfert  sécurisé de données entre différents systèmes.
-- Bon également pour la livraison de données sur les plaateformes analytiques.
+- Bon également pour la livraison de données sur les plateformes analytiques.
 - Enrichissement et préparation des données : Conversion entre formats (Json vers Avro ou XML...), extraction, parsing, routage des données en fonction du type de données...
 
 **Inconvénients :**
@@ -29,8 +29,11 @@ Il posséde une interface web. Tout ce qu'il est possible de faire sur la webapp
 - Autant utiliser une solution plus classique : Apache Spark par exemple !!
 
 ## Installation
+```sbtshell
+wget https://archive.apache.org/dist/nifi/1.11.4/nifi-1.11.4-bin.tar.gz
+tar -xvf nifi-1.11.4-bin.tar.gz
+```
 
-Télécharger le tar.gz.
 Lancer avec la commande :
 
 ```sbtshell
