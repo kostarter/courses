@@ -2,6 +2,27 @@
 
 Sur leur site : **"Apache NiFi supports powerful and scalable directed graphs of data routing, transformation, and system mediation logic."**
 
+## ETL, c'est quoi ?
+
+Un logiciel ETL (Extract Transform Load) permet d’extraire des données brutes depuis une base de données, pour ensuite les restructurer, et enfin les charger dans une Data Warehouse. Ces logiciels existent depuis bien longtemps, mais ont beaucoup évolué pour répondre aux nouveaux besoins liés à l’essor du Cloud et du Big Data.
+Ils doivent permettre l’ingestion en temps réel, l’enrichissement de données, la prise en charge de millions voire milliards de transactions. Ils prennent aussi en charge les données structurées ou non structurées en provenance de sources sur site ou sur le Cloud.
+
+Pour résumer : Le défi dans les environnements d'entrepôt de données consiste à intégrer, réorganiser et consolider de grands volumes de données sur de nombreux systèmes, fournissant ainsi une nouvelle base d'information unifiée pour faire de la BI (Business Intelligence).
+
+#### Exemples d'ETLs :
+
+Xplenty : Une plate-forme qui offre une interface visuelle simple et intuitive pour créer des pipelines de données entre un grand nombre de sources et de destinations.
+
+Talend ou Talend Open Studio : Développé par Talend, qui est une entreprise française. Permet d'exécuter des tâches ETL et d’intégration de données simples, d'obtenir des profils graphiques des données et et de la gestion de fichiers. Pour avoir travailler dessus chez LVMH je ne le recommenderais à personne tellement cette outil est une usine à gaz.
+
+ODI (ex Sunopsys) : c'est un logiciel développé en java pour réaliser des tâches de type ETL/EAI (Enterprise Application Integration).
+Il offre un environnement de développement graphique , c'est du client lourd. Multi-projets et multi-équipes. Il centralise les développements dans un référentiel indépendant des développements.
+
+Pentaho : c'est un logiciel de business intelligence qui fournit l'intégration de données, les services OLAP, les rapports, les tableaux de bord d'informations, l'exploration et l'extraction de données, la transformation et le chargement.
+
+
+## Apache NiFi, c'est quoi ?
+
 Apache Nifi est un puissant outil open source de gestion de flux de données.</br>
 
 - Il permet de gérer, automatiser, transformer, transférer des données entre plusieurs systèmes informatiques : Kafka, Amazon S3, HDFS, Base de données...
@@ -11,10 +32,15 @@ Apache Nifi est un puissant outil open source de gestion de flux de données.</b
 - Il permet la traçabilité des données.
 - Il est extensible. Possibilité de créer ses propres processors/scripts.
 - Il est sécurisé : SSL, HTTPS, chiffrement, etc...
+- Il permet de gérer le versionnage des workflows dans Git grace au GitFlowPersistenceProvider.
 
 Il posséde une interface web. Tout ce qu'il est possible de faire sur la webapp peut être fait via une API Rest.
 
 **Pour résumer :** Le concept général est de créer des flux de données où les données sont acheminées à travers des processeurs pour réaliser des traitements dessus.
+
+**Qui utilise Nifi ?**
+
+Apache NiFi est de plus en plus populaire, surtout aux Etats-Unis. Le nombre de grandes entreprises qui l'utilisent augementent de 4% chaque année et parmi ces compagnies on peut trouver Verizon, American Express ou T Mobile.
 
 **Avantages :**
 
@@ -28,20 +54,17 @@ Il posséde une interface web. Tout ce qu'il est possible de faire sur la webapp
 - N'est pas fait pour du développement complexe : du calcul distribué, des jointures ou aggregations entre des données se trouvant dans des fichiers différents ou des opérations complexes sur les données ou clacul de métriques.
 - Autant utiliser une solution plus classique : Apache Spark par exemple !!
 
-## Installation
-```sbtshell
-wget https://archive.apache.org/dist/nifi/1.11.4/nifi-1.11.4-bin.tar.gz
-tar -xvf nifi-1.11.4-bin.tar.gz
-```
 
-Lancer avec la commande :
+### Mode cluster :
 
-```sbtshell
-> cd nifi-1.11.4/
-> ./bin/nifi.sh start
-```
+Apache NiFi peut également être implémenté en mode cluster : les flux de données peuvent être distribués et traités à travers différents nœuds d’un cluster NiFi. 
+Le schéma ci-dessous donne un aperçu d’une architecture NiFi distribuée : Sur cet exemple on voit encore une fois une architecture en mode Master / Slaves où NiFi possède un ou plusieurs nœuds esclaves contrôlés par un simple NCM (NiFi Cluster Manager) faisant office de maître.
+Le NCM permet de récolter les informations issues de chaque nœud – dont leur statut – et de répliquer les requêtes associées sur les flux de données qui transitent au sein du système NiFi.
 
-http://localhost:8080/nifi/
+Mais on peut égalament configurer NiFi en mode no master pour éviter d'avoir le Single Point of Failure.
+
+A noter qu’en cas d’indisponibilité du NCM, les nœuds esclaves continueront de fonctionner afin de maintenir la disponibilité des flux. La contrepartie sera, en revanche, qu’aucun nouveau nœud ne pourra rejoindre le cluster et aucune réplication inter-nœuds des changements associés aux flux ne sera effectuée, tant que le NCM ne sera pas restauré.
+
 
 ### FlowFile
 
