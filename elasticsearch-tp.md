@@ -31,10 +31,12 @@ $ curl -H "Content-Type: application/json" -XDELETE localhost:9200/movies
 
 ## Films 
 
+<!--
 ```
 $ wget https://files.grouplens.org/datasets/movielens/ml-25m.zip
 $ wc -l ratings.csv
 ```
+-->
 ```
 $ curl -H "Content-Type: application/json" -XPUT 127.0.0.1:9200/movies?pretty -d '
 {
