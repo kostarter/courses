@@ -552,16 +552,16 @@ $ docker-compose down
 
 **Another example :**
 ```yaml
-	services:
-	  proxy:
-	    image: nginx:1.13 # this will use the latest version of 1.13.x
-	    ports:
-	      - '80:80' # expose 80 on host and sent to 80 in container
-	    volumes:
-	      # ro means it is readonly, can't change it in the container
-	      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
-	  web:
-	    image: httpd  # this will use httpd:latest
+services:
+  proxy:
+    image: nginx:1.13 # this will use the latest version of 1.13.x
+    ports:
+      - '80:80' # expose 80 on host and sent to 80 in container
+    volumes:
+      # ro means it is readonly, can't change it in the container
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+  web:
+    image: httpd  # this will use httpd:latest
 ```
 
 ```console
@@ -585,27 +585,27 @@ $ docker-compose down
 
 **Example (Drupal) :**
 ```yaml
-	services:
-	  drupal:
-	    image: drupal:8.8.2
-	    ports:
-	      - "8080:80"
-	    volumes:
-	      - drupal-modules:/var/www/html/modules
-	      - drupal-profiles:/var/www/html/profiles       
-	      - drupal-sites:/var/www/html/sites      
-	      - drupal-themes:/var/www/html/themes
-	  postgres:
-	    image: postgres:12.1
-	    # No need to specify port because they are going to run on the same network
-	    environment:
-	      - POSTGRES_PASSWORD=mypasswd
+services:
+  drupal:
+    image: drupal:8.8.2
+    ports:
+      - "8080:80"
+    volumes:
+      - drupal-modules:/var/www/html/modules
+      - drupal-profiles:/var/www/html/profiles       
+      - drupal-sites:/var/www/html/sites      
+      - drupal-themes:/var/www/html/themes
+  postgres:
+    image: postgres:12.1
+    # No need to specify port because they are going to run on the same network
+    environment:
+      - POSTGRES_PASSWORD=mypasswd
 
-	volumes:
-	  drupal-modules:
-	  drupal-profiles:
-	  drupal-sites:
-	  drupal-themes:
+volumes:
+  drupal-modules:
+  drupal-profiles:
+  drupal-sites:
+  drupal-themes:
 ```
 
 Using Compose to Build :<br/>
@@ -613,24 +613,26 @@ Great for complex builds that have lots of vars or build args.
 
 Here is an example on how to build a custom image, using a Dockerfile :
 ```yaml
-	services:
-	  proxy:
-	    build:
-	      context: .
-	      dockerfile: nginx.Dockerfile
-	    # Will look for this image in the cache, and if not found will build it like described above.
-	    image: nginx-custom
-	    ports:
-	      - '80:80'
-	  web:
-	    image: httpd
-	    volumes:
-	      - ./html:/usr/local/apache2/htdocs/
+services:
+  proxy:
+    build:
+      context: .
+      dockerfile: nginx.Dockerfile
+    # Will look for this image in the cache, and if not found will build it like described above.
+    image: nginx-custom
+    ports:
+      - '80:80'
+  web:
+    image: httpd
+    volumes:
+      - ./html:/usr/local/apache2/htdocs/
 ```
 
 ## Swarm : Built-in Orchestration.
 
-Why Swarm ? TODO : See the screenshot.
+Why Swarm ?
+	
+![Why Swarm ?](./img/why-swarm.png)
 
 Swarm Mode is a clustering solution built inside Docker. It was added in version 1.12 (2016) via SwarmKit toolkit.<br/>
 Basic Docker run command doesn't know about how to scale up or scale out.<br/>
@@ -931,8 +933,8 @@ qjp5uvy4borw        voteapp_worker       replicated          1/1                
 qzz6xp6lyfi0        voteapp_result       replicated          1/1                 bretfisher/examplevotingapp_result:latest   *:5001->80/tcp
 ```
 
-Visualizer :
-http://192.168.99.100:8080/
+Visualizer :<br/>
+http://IP_ADDRESS:8080/
 
 A tool made by Docker to visualize all the services and their distribution over the nodes.
 
@@ -1830,7 +1832,7 @@ kube-system       Active   2d4h
 
 For more details :
 ```console 
-> kubectl get all --all-namespaces
+$ kubectl get all --all-namespaces
 ```
 
 The context is the combination of : Cluster, Authentification/User and Namespace.
