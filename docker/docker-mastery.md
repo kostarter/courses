@@ -24,6 +24,8 @@ RHEL officially only supports the Docker EE.
 Edge means beta in Docker world.
 It gets new features first, but only supported for a month.
 
+![Tux, the Linux mascot](./img/docker-partners-small.png)
+
 ## Linux install :
 
 To get the latest Edge release (better for testing) :
@@ -646,8 +648,11 @@ Manager is a worker with permissions to control the swarm.
 
 ### Worker Nodes : Executes the assigned task.
 
-TODO : See the screenshots.
+![Why Swarm ?](./img/swarm-architecture-1.png)
+	
+![Why Swarm ?](./img/swarm-architecture-2.png)
 
+![Why Swarm ?](./img/swarm-architecture-3.png)
 
 ### Services :
 
@@ -804,6 +809,10 @@ Creates a Swarm-wide bridge network where the containers across hosts on the sam
 It allows to enable full network encryption using IPSec (AES) encryption. It is OFF by default for performance reasons.
 
 Each service can be connected to multiple networks (front-end, back-end...).
+	
+![Why Swarm ?](./img/swarm-overlay-1.png)
+	
+![Why Swarm ?](./img/swarm-overlay-2.png)
 
 **Example (with Drupal) :**
 
@@ -1334,9 +1343,7 @@ But should fail if you try to deal with the network capabilities of Docker.
 ## Distroless Images ? 
 Do not include any application in the image, neither sh nor bash. It is very hard to create.
 
-#Q & A :
-
-## Alpine : 
+# Alpine : 
 The smaller it is the more secure is. Less files, less executables, less vulnerabilities.<br/>
 https://kubedex.com/follow-up-container-scanning-comparison/
 
@@ -1345,7 +1352,7 @@ https://kubedex.com/follow-up-container-scanning-comparison/
 What is supervisor D ?<br/>
 Env. variables : First in the Dockerfile, then you can redefine them in docker compose file, or the entrypoint file to write them in a config file within the container.
 
-## Kubernetes :
+# Kubernetes :
 
 Popular container orchestrator.<br/>
 Container orchestration : Make many servers act like one.<br/>
@@ -1461,7 +1468,7 @@ NAME                                  DESIRED   CURRENT   READY   AGE
 replicaset.apps/my-nginx-669bb4594c   1         1         1       2m56s
 ```
 
-TODO : See screenshot.
+![Pods & Controllers](./img/pods-and-controllers.png)
 
 ```console 
 $ kubectl delete deployment my-nginx
@@ -1652,7 +1659,7 @@ It is hard to automate.
 Best for production, easier to automate.
 Hard to understand and predict changes.
 
-TODO : Waring Icon **Don't mix the three approaches !!**
+:warning: **Don't mix the three approaches !!** :warning:
 
 #### Move to Declarative Kubernetes :
 
