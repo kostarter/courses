@@ -110,12 +110,12 @@ $ sudo docker container run --publish 80:80 --detach nginx
 ```
 Lists all the running containers. Add option -a to have the stopped containers too.
 ```console
-> sudo docker container ls (old way is docker ps)
+$ sudo docker container ls (old way is docker ps)
 ```
 To start again the previously stopped container.
 ```console
-> sudo docker container stop 4c60307e32ee
-> sudo docker container start 4c60307e32ee
+$ sudo docker container stop 4c60307e32ee
+$ sudo docker container start 4c60307e32ee
 ```
 
 To show logs for a specific container.
@@ -803,7 +803,7 @@ tghlyrpgu1ju        friendly_diffie.2   alpine:latest       node2               
 ipwbbwjeyqqp        friendly_diffie.3   alpine:latest       node3               Running             Running about a minute ago      
 ```
 
-### Overlay 
+### Overlay :
 
 Creates a Swarm-wide bridge network where the containers across hosts on the same virtual network can access each other. This is for intra swarm communication.<br/>
 It allows to enable full network encryption using IPSec (AES) encryption. It is OFF by default for performance reasons.
@@ -852,8 +852,10 @@ It is running on node2.
 
 They will talk to each other using the service names.
 
-To access Drupal site : http://192.168.99.101/ <br/>
-We can also access using http://192.168.99.100/
+To access Drupal site :<br/>
+http://XX.XX.XX.101/ <br/>
+
+We can also access using http://XX.XX.XX.100/
 
 **Why ?**
 
@@ -864,8 +866,7 @@ It load balances Swarm services across their tasks.<br/>
 This is stateless load balancing.
 
 **Two ways this works :**<br/>
-* Container to container in overlay network using virtual IP (example of two nodes for a back-end service). This is a private IP inside the virtual networking of Swarm and it ensures that the load is distributed over all the tasks for a service.
-  <br/><br/>
+* Container to container in overlay network using virtual IP (example of two nodes for a back-end service). This is a private IP inside the virtual networking of Swarm and it ensures that the load is distributed over all the tasks for a service.<br/><br/>
 * External traffic incoming to published ports. Any of the worker nodes are going to have that published port open and listening for that container's traffic. It will reroute that traffic to the proper container based on its load balancing.<br/>
 When we deploy a container in a swarm, we are not supposed to have to care about on which node it runs. We don't have to change the firewall, the DNS settings...
 
@@ -1309,7 +1310,7 @@ Did Docker get installed properly ? Does Docker have all the right permissions t
 Don't run your apps as root inside the container.<br/>
 If someone gets access to the application running as root he will have all the ability to access to the filesystem of the container as a root.
 
-> docker top 017
+$ docker top 017
 UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
 root                31802               31787               0                   18:41               ?                   00:00:00            nginx: master process nginx -g daemon off;
 101                 31858               31802               0                   18:41               ?                   00:00:00            nginx: worker process
@@ -1544,7 +1545,7 @@ my-apache-5d589d69c7-28h2x   0/1     Terminating         0          18m
 
 A service is a stable address for pod(s) : an endpoint that is consistent so other things inside or outside the cluster might be able to access it.<br/>
 When we create a pod inside Kubernetes it does not automatically get a DNS name for external connectivity with an IP address.<br/>
-=> If we want to connect to pod(s), we need a service.
+:arrow_right: If we want to connect to pod(s), we need a service.
 
 CoreDNS is going to be the DNS server to resolve services by name.
 
@@ -1586,9 +1587,9 @@ Creates a service for existing pods.
 ```console 
 $ kubectl create deployment httpenv --image=bretfisher/httpenv
 deployment.apps/httpenv created
-> kubectl scale deployment/httpenv --replicas=5
+$ kubectl scale deployment/httpenv --replicas=5
 deployment.apps/httpenv scaled
-> kubectl expose deployment/httpenv --port 8888
+$ kubectl expose deployment/httpenv --port 8888
 service/httpenv exposed
 ```
 Creates a service of type cluster IP in front of the deployment and opens the port 8889 for it.
