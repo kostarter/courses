@@ -1,7 +1,3 @@
-<p align="center">
-  <img width="500" height="250" src="https://www.extraordy.com/wp-content/uploads/2020/05/kafka-training-in-brighton-apache-kafka-training-1576498761.jpeg"/>
-</p>
-
 # Introduction to KAFKA
 
 <p align="center">
