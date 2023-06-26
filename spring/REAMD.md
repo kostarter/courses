@@ -14,6 +14,9 @@ At a high level, features of Spring Framework 5.0 can be categorized into :
 More details :<br/>
 https://www.udemy.com/course/spring-framework-5-beginner-to-guru/learn/lecture/7577382#overview
 
+<p align="center">
+  <img src="img/screenshot_from_2023-06-21_17-24-08.png"/>
+</p>
 
 ### Spring Boot :
 
@@ -43,11 +46,25 @@ Spring Data Repositories : By extending CrudRepository it gives access to severa
 
 Hibernate will generate SQL based on the JPA definition.
 
+<p align="center">
+  <img src="img/screenshot_from_2023-06-21_17-24-47.png"/>
+</p>
+<p align="center">
+  <img src="img/screenshot_from_2023-06-21_17-27-35.png"/>
+</p>
+
 ### Spring MVC :
 
 @Controller : Will register the class as a Spring Bean and as a Controller in Spring MVC.<br/>
 To map controller methods to HTTP request paths use @RequestMapping.<br/>
 @ResponseBody : To return simple stream without any template or view resolving.
+
+<p align="center">
+  <img src="img/screenshot_from_2023-06-21_15-34-07.png"/>
+</p>
+<p align="center">
+  <img src="img/screenshot_from_2023-06-21_15-36-55.png"/>
+</p>
 
 ##### Thymeleaf : Java template engine, an alternative to JSP. It is a natural template engine. Natural meaning that templates can be viewed in a browser.
 
@@ -88,7 +105,12 @@ Profiles allow to have beans in a configuration that will take different charact
 
 
 #### Spring Bean Life Cycle : 
-See screenshot.
+<p align="center">
+  <img src="img/screenshot_from_2023-06-22_15-37-16.png"/>
+</p>
+<p align="center">
+  <img src="img/screenshot_from_2023-06-22_15-38-51.png"/>
+</p>
 
 Call back Interfaces that can be implemented for call back events :<br/>
 1. InitilizeBean.afterPropertiesSet() : Called after properties are set.
@@ -152,7 +174,12 @@ Which to Use ?
 * Newer applications should use Java based configuration.
 
 
-Spring Framework Stereotypes :
+##### Spring Framework Stereotypes :
+
+<p align="center">
+  <img src="img/screenshot_from_2023-06-22_16-34-16.png"/>
+</p>
+
 * Stereotype - A fixed general image or set of characteristics which represent a particular type of person or thing.
 * Spring Stereotypes are class level annotations used to define Spring Beans.
 When classes annotated with Spring Stereotypes are detected via the component scan, an instance of the class will be added to the Spring context.
@@ -252,3 +279,9 @@ public class SfgConfiguration {
     // Will look for the property in application.yml guru section, thanks to ConfigurationProperties annotation
     private String username;
 ```
+
+## Example of Application :
+
+<p align="center">
+  <img src="img/screenshot_from_2023-06-21_17-30-58.png"/>
+</p>
